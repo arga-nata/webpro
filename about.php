@@ -26,7 +26,7 @@
       
       <div class="team-card">
   <div class="img-wrapper">
-    <img src="https://ui-avatars.com/api/?name=Firlian+Firman&background=2d3436&color=fff" alt="Firlian">
+    <img src="assets/images/Firman.jpg" alt="Firman">
   </div>
   <div class="team-info">
     <h3>Firlian Firman Syah</h3>
@@ -37,7 +37,7 @@
 
       <div class="team-card">
         <div class="img-wrapper">
-          <img src="https://ui-avatars.com/api/?name=Naufal+Abbad&background=2d3436&color=fff" alt="Naufal">
+          <img src="assets/images/Abbad.jpeg" alt="Naufal">
         </div>
         <div class="team-info">
           <h3>M. Naufal Abbad</h3>
@@ -48,7 +48,7 @@
 
       <div class="team-card">
         <div class="img-wrapper">
-          <img src="https://ui-avatars.com/api/?name=Putra+Apridika&background=2d3436&color=fff" alt="Putra">
+          <img src="assets/images/Dikaa.jpeg" alt="Dika">
         </div>
         <div class="team-info">
           <h3>M. Putra Apridika</h3>
@@ -70,7 +70,7 @@
 
       <div class="team-card">
         <div class="img-wrapper">
-          <img src="https://ui-avatars.com/api/?name=Rechan+Rizky&background=2d3436&color=fff" alt="Rechan">
+          <img src="assets/images/Rehan.jpeg" alt="Rechan">
         </div>
         <div class="team-info">
           <h3>Rechan Rizky</h3>

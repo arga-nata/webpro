@@ -7,6 +7,8 @@
 
   <title><?php echo isset($pageTitle) ? $pageTitle : "Street Sushi"; ?></title>
 
+  <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon">
+
   <link rel="stylesheet" href="assets/css/page.css">
   <link rel="stylesheet" href="assets/css/navbar.css">
 

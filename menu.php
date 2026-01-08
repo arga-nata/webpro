@@ -1,19 +1,19 @@
 <?php 
-  $pageTitle = "Premium Menu Selection - Street Sushi"; 
-  $currentPage = "menu";             
-  include 'includes/header.php'; 
+  $pageTitle = "Menu - Street Sushi";
+  $currentPage = "menu";
+  include 'includes/header.php';
 ?>
 
 <link rel="stylesheet" href="assets/css/menu.css">
 
 <header class="menu-hero">
-  
+
   <div class="hero-menu-image">
     <img src="assets/images/gambar2.jpg" alt="Premium Sushi Platter">
   </div>
 
   <div class="hero-overlay"></div>
-  
+
   <div class="hero-content text-center">
     <span class="japanese-tag">プレミアムメニュー</span>
     <h1>Taste the <span class="text-gradient">Future</span></h1>

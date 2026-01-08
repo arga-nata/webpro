@@ -1,0 +1,58 @@
+/* LINK FONT GLOBAL (Pastikan ini ada paling atas) */
+@import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  /* --- TEMA DARK FUTURISTIC --- */
+  --bg-dark: #0b0c10;
+  --bg-dark-secondary: #121212;
+
+  /* Glass Effect Colors */
+  --glass-bg: rgba(30, 30, 40, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-blur: blur(12px);
+
+  /* Neon Accents */
+  --neon-red: #ff2e63;
+  --neon-blue: #00d2d3;
+  --neon-green: #2ecc71;
+  --neon-orange: #ff9f43;
+
+  /* Text Colors */
+  --text-primary: #ffffff;
+  --text-secondary: #a0a0b0;
+
+  /* Sidebar width */
+  --sidebar-width: 260px;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-dark);
+  color: var(--text-primary);
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  /* Mencegah scroll samping */
+}
+
+/* Utility Class untuk Background Grid Halus (Sama kayak login) */
+.bg-grid-dashboard {
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 30px 30px;
+  z-index: -2;
+}
+
+/* Judul Font Keren */
+h1,
+h2,
+h3,
+h4,
+h5,
+.brand-text {
+  font-family: 'Dela Gothic One', cursive;
+  letter-spacing: 1px;
+}
