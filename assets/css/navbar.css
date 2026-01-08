@@ -1,0 +1,233 @@
+/* =========================================
+   1. NAVBAR BASE (DESKTOP)
+   ========================================= */
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 75px;
+  padding: 0 5%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--nav-glass);
+  backdrop-filter: blur(15px);
+  z-index: 1000;
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* LOGO */
+.logo {
+  font-family: 'Dela Gothic One', cursive;
+  font-size: 1.3rem;
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.logo i { color: var(--accent); }
+
+/* LINK NAVIGASI */
+.nav-links {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--text-color);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  position: relative;
+  padding: 5px 0;
+}
+
+/* Garis Bawah (Underline) */
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: var(--accent);
+  transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after,
+.nav-links a.active::after {
+  width: 100%;
+}
+
+/* AKSI KANAN */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* --- TOMBOL TEMA & LOGIN (GAYA SERAGAM) --- */
+.theme-btn,
+.login-nav-btn {
+  background: var(--card-bg);            /* KUNCI: Ikut warna kartu (Putih/Hitam) */
+  border: 1px solid var(--border-color); /* Garis tepi tipis */
+  color: var(--text-color) !important;   /* Teks ikut warna tema */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: border-color 0.3s ease, color 0.3s ease; /* Hanya transisi warna */
+}
+
+/* Spesifik Tombol Tema (Bulat) */
+.theme-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  font-size: 1.2rem;
+}
+
+/* Spesifik Tombol Login (Kapsul) */
+.login-nav-btn {
+  padding: 8px 20px;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  gap: 8px;
+}
+
+/* --- EFEK HOVER (SIMPLE) --- */
+.theme-btn,
+.login-nav-btn {
+  background: var(--card-bg);            /* KUNCI: Ikut warna kartu (Putih/Hitam) */
+  border: 1px solid var(--border-color); /* Garis tepi tipis */
+  color: var(--text-color) !important;   /* Teks ikut warna tema */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: border-color 0.3s ease, color 0.3s ease; /* Hanya transisi warna */
+}
+
+/* Spesifik Tombol Tema (Bulat) */
+.theme-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  font-size: 1.2rem;
+}
+
+/* Spesifik Tombol Login (Kapsul) */
+.login-nav-btn {
+  padding: 8px 20px;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  gap: 8px;
+}
+
+/* --- EFEK HOVER (SIMPLE) --- */
+.login-nav-btn:hover {
+  border-color: var(--text-color);
+  background: var(--card-bg);
+  transform: none;
+}
+
+
+.mobile-menu-btn {
+  display: none; /* Sembunyi di desktop */
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  color: var(--text-color);
+  cursor: pointer;
+}
+
+/* Helper Class untuk JS (Kunci Scroll) */
+body.no-scroll {
+  overflow: hidden;
+}
+
+/* =========================================
+   2. RESPONSIVE (MOBILE & TABLET)
+   ========================================= */
+@media (max-width: 992px) {
+  
+  .navbar {
+    height: 65px;
+    padding: 0 4%;
+  }
+
+  .mobile-menu-btn {
+    display: block;
+    width: 40px;
+    text-align: left;
+  }
+
+  .logo {
+    flex: 1;
+    justify-content: center;
+    font-size: 0.9rem;
+    margin: 0;
+  }
+
+  .nav-actions { gap: 8px; }
+
+  /* --- DROPDOWN MENU 2 KOLOM --- */
+  .nav-links {
+    position: absolute;
+    top: 65px;
+    left: 0;
+    width: 100%;
+    background: var(--card-bg);
+    
+    /* Layout Grid */
+    display: none;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    padding: 20px;
+    
+    /* Scroll Logic */
+    max-height: calc(100vh - 65px);
+    overflow-y: auto;
+    
+    border-bottom: 2px solid var(--border-color);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  .nav-links.active {
+    display: grid;
+  }
+
+  .nav-links li {
+    width: 100%;
+    border: 1px solid rgba(128, 128, 128, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .nav-links a {
+    display: block;
+    padding: 12px 10px;
+    text-align: center;
+    font-size: 0.85rem;
+  }
+
+  /* --- LOGIN JADI ICON BULAT DI MOBILE --- */
+  @media (max-width: 480px) {
+    .login-text { display: none; } /* Hilangkan teks */
+    
+    .login-nav-btn {
+      padding: 0;
+      width: 42px;  /* Samakan size dengan theme-btn */
+      height: 42px; /* Samakan size dengan theme-btn */
+      border-radius: 50%; /* Jadi lingkaran */
+      font-size: 1.2rem; /* Besarkan icon */
+      justify-content: center;
+    }
+  }
+}

@@ -1,0 +1,339 @@
+/* =========================================
+   STYLE GALERI: FUTURISTIK (DARK/LIGHT READY)
+   ========================================= */
+
+/* --- HERO SECTION --- */
+.gallery-hero {
+    position: relative;
+    padding: 120px 20px 80px 20px;
+    background-color: var(--bg-color);
+    /* Ikut warna halaman (Putih/Hitam) */
+    overflow: hidden;
+    text-align: center;
+
+    /* RESTORE: Garis Neon Merah di Bawah */
+    border-bottom: 2px solid var(--accent);
+    box-shadow: 0 4px 20px rgba(214, 48, 49, 0.2);
+    /* Glow halus di bawah garis */
+}
+
+/* RESTORE: Siluet/Gradasi Merah di Background */
+.gallery-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Gradasi Merah Halus (Terlihat keren di Dark, terlihat clean di Light) */
+    background: radial-gradient(circle at center, rgba(214, 48, 49, 0.15) 0%, transparent 70%);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.japanese-title {
+    display: block;
+    font-size: 1rem;
+    letter-spacing: 5px;
+    color: var(--accent);
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+/* --- EFEK GLITCH TEXT (FIXED FOR LIGHT MODE) --- */
+.glitch-text {
+    font-family: 'Dela Gothic One', cursive;
+    font-size: 3.5rem;
+    color: var(--text-color);
+    /* Otomatis Hitam/Putih */
+    position: relative;
+    display: inline-block;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* KUNCI FIX: Gunakan var(--bg-color) agar 'potongan' glitch menyatu dengan background halaman */
+    background: var(--bg-color);
+}
+
+/* Efek Glitch Warna */
+.glitch-text::before {
+    left: 2px;
+    text-shadow: -1px 0 red;
+    clip: rect(24px, 550px, 90px, 0);
+    animation: glitch-anim-2 3s infinite linear alternate-reverse;
+}
+
+.glitch-text::after {
+    left: -2px;
+    text-shadow: -1px 0 blue;
+    clip: rect(85px, 550px, 140px, 0);
+    animation: glitch-anim 2.5s infinite linear alternate-reverse;
+}
+
+/* Animasi Glitch Tetap Sama */
+@keyframes glitch-anim {
+    0% {
+        clip: rect(10px, 9999px, 31px, 0);
+    }
+
+    20% {
+        clip: rect(65px, 9999px, 99px, 0);
+    }
+
+    40% {
+        clip: rect(15px, 9999px, 60px, 0);
+    }
+
+    60% {
+        clip: rect(80px, 9999px, 20px, 0);
+    }
+
+    80% {
+        clip: rect(35px, 9999px, 90px, 0);
+    }
+
+    100% {
+        clip: rect(55px, 9999px, 10px, 0);
+    }
+}
+
+@keyframes glitch-anim-2 {
+    0% {
+        clip: rect(60px, 9999px, 90px, 0);
+    }
+
+    20% {
+        clip: rect(10px, 9999px, 40px, 0);
+    }
+
+    40% {
+        clip: rect(80px, 9999px, 10px, 0);
+    }
+
+    60% {
+        clip: rect(30px, 9999px, 70px, 0);
+    }
+
+    80% {
+        clip: rect(95px, 9999px, 30px, 0);
+    }
+
+    100% {
+        clip: rect(20px, 9999px, 60px, 0);
+    }
+}
+
+/* --- LAYOUT UMUM --- */
+.container-gallery {
+    padding-bottom: 80px;
+}
+
+.gallery-section {
+    padding: 60px 5%;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 50px;
+    position: relative;
+}
+
+.sub-jp {
+    display: block;
+    font-size: 1.5rem;
+    color: var(--border-color);
+    opacity: 0.2;
+    font-weight: 900;
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 0;
+    white-space: nowrap;
+}
+
+.section-title h2 {
+    font-family: 'Dela Gothic One';
+    font-size: 2rem;
+    color: var(--text-color);
+    position: relative;
+    z-index: 1;
+}
+
+.neon-line {
+    width: 60px;
+    height: 4px;
+    background: var(--accent);
+    margin: 15px auto;
+    border-radius: 2px;
+    box-shadow: 0 0 10px var(--accent);
+    /* Efek Neon tetap menyala */
+}
+
+/* --- GRID MENU --- */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    background: var(--card-bg);
+    /* Kartu adaptif (Putih/Hitam) */
+    transition: 0.3s;
+}
+
+.gallery-item:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 20px rgba(214, 48, 49, 0.2);
+    /* Glow merah saat hover */
+    transform: translateY(-5px);
+}
+
+.img-box {
+    position: relative;
+    height: 250px;
+    width: 100%;
+}
+
+.img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+    color: white;
+    transform: translateY(20px);
+    opacity: 0;
+    transition: 0.3s;
+}
+
+.gallery-item:hover .img-box img {
+    transform: scale(1.1);
+}
+
+.gallery-item:hover .overlay {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.overlay h3 {
+    font-size: 1.1rem;
+    margin: 0;
+    font-weight: 700;
+}
+
+.overlay p {
+    font-size: 0.9rem;
+    color: var(--accent);
+    margin: 0;
+    letter-spacing: 2px;
+    font-weight: 600;
+}
+
+/* --- ATMOSPHERE GRID (Masonry) --- */
+.atmosphere-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 200px 200px;
+    gap: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.atmo-item {
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    background: var(--card-bg);
+}
+
+.atmo-item.large {
+    grid-row: 1 / span 2;
+}
+
+.atmo-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.9);
+    transition: 0.5s;
+}
+
+.atmo-item:hover img {
+    filter: brightness(1);
+    transform: scale(1.05);
+}
+
+.caption {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    text-align: left;
+    z-index: 2;
+}
+
+.caption span {
+    background: var(--accent);
+    color: white;
+    padding: 3px 8px;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.caption h4 {
+    margin-top: 5px;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.8);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .glitch-text {
+        font-size: 2.2rem;
+    }
+
+    .atmosphere-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+    }
+
+    .atmo-item.large {
+        grid-row: auto;
+        height: 250px;
+    }
+
+    .atmo-item {
+        height: 200px;
+    }
+}

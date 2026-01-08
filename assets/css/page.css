@@ -1,0 +1,574 @@
+/* =========================================
+   1. SETUP VARIABEL & TEMA (Global)
+   ========================================= */
+:root {
+  --bg-color: #f0f2f5;
+  --text-color: #2d3436;
+  --card-bg: #ffffff;
+  --accent: #d63031;
+  --border-color: #b2bec3;
+  --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.05);
+  --shadow-hover: 0 10px 25px rgba(0, 0, 0, 0.1);
+  --glow: none;
+  --status-bg: #ffffff;
+}
+
+[data-theme="dark"] {
+  --bg-color: #0f0f12;
+  --text-color: #dfe6e9;
+  --card-bg: #18181b;
+  --accent: #ff4757;
+  --border-color: #2d3436;
+  --shadow-soft: 0 10px 40px rgba(0, 0, 0, 0.3);
+  --shadow-hover: 0 0 20px rgba(255, 71, 87, 0.4);
+  --glow: 0 0 10px rgba(255, 71, 87, 0.5);
+  --status-bg: #18181b;
+}
+
+/* =========================================
+   2. RESET & BASE STYLE
+   ========================================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 400;
+}
+
+/* =========================================
+   3. HERO SECTION
+   ========================================= */
+.hero {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 40px 10% 20px 10%;
+  position: relative;
+}
+
+.hero-body {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  flex: 1;
+}
+
+.hero-content {
+  max-width: 550px;
+  z-index: 2;
+}
+
+.japanese-tag {
+  color: var(--accent);
+  font-weight: 800;
+  letter-spacing: 2px;
+  font-size: 0.85rem;
+  display: block;
+  margin-bottom: 10px;
+  text-shadow: var(--glow);
+}
+
+.hero h1 {
+  font-family: 'Dela Gothic One', cursive;
+  font-size: 3.5rem;
+  line-height: 1.1;
+  margin-bottom: 20px;
+  color: var(--text-color);
+}
+
+.hero p {
+  margin-bottom: 30px;
+  opacity: 0.9;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.cta-btn {
+  padding: 12px 30px;
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  display: inline-block;
+  text-align: center;
+}
+
+.primary {
+  background: var(--accent);
+  color: white;
+  box-shadow: var(--glow);
+  border: none;
+}
+
+.secondary {
+  background: transparent;
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+}
+
+.cta-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover);
+}
+
+.hero-image {
+  width: 450px;
+  max-width: 45%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.2));
+  transition: filter 0.3s ease;
+}
+
+[data-theme="dark"] .hero-image img {
+  filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 15px rgba(255, 71, 87, 0.3));
+}
+
+/* =========================================
+   4. LIVE STATUS BAR
+   ========================================= */
+.live-status-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  width: 100%;
+  background: var(--status-bg);
+  padding: 25px 30px;
+  border-radius: 15px;
+  margin-top: 20px;
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-soft);
+  border: 1px solid var(--border-color);
+  z-index: 5;
+}
+
+.status-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.status-icon {
+  font-size: 1.5rem;
+  min-width: 30px;
+  text-align: center;
+}
+
+.label {
+  display: block;
+  font-size: 0.75rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 2px;
+}
+
+.value {
+  font-weight: 800;
+  font-size: 1rem;
+  color: var(--text-color);
+}
+
+.pulse-green {
+  color: #00b894;
+  text-shadow: 0 0 10px #00b894;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* =========================================
+   5. QUICK MENU
+   ========================================= */
+.container {
+  padding: 0 10% 80px 10%;
+}
+
+.quick-menu {
+  margin-top: 50px;
+  margin-bottom: 80px;
+  position: relative;
+}
+
+.section-header {
+  margin-bottom: 30px;
+}
+
+.section-header h2 {
+  font-family: 'Dela Gothic One';
+  font-size: 1.5rem;
+}
+
+.view-all-wrapper {
+  margin-top: 20px;
+  text-align: right;
+}
+
+.view-all {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+  white-space: nowrap;
+  display: inline-block;
+  padding: 10px 20px;
+  background: var(--card-bg);
+  border-radius: 30px;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-soft);
+}
+
+.view-all:hover {
+  border-color: var(--accent);
+  transform: translateX(5px);
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+}
+
+.menu-card-glass {
+  background: var(--card-bg);
+  border-radius: 15px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-soft);
+}
+
+.menu-card-glass:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--accent);
+}
+
+.menu-card-glass img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.menu-info {
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.menu-info h3 {
+  font-size: 1.1rem;
+  margin-bottom: 5px;
+}
+
+.menu-info p {
+  color: var(--accent);
+  font-weight: bold;
+}
+
+.add-btn {
+  background: var(--accent);
+  color: white;
+  border: none;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  cursor: pointer;
+  box-shadow: var(--glow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* =========================================
+   6. VALUES GRID
+   ========================================= */
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin-bottom: 80px;
+}
+
+.values-grid .section-header {
+  grid-column: 1 / -1;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.values-grid .section-header h2 {
+  font-size: 2rem;
+  position: relative;
+  display: inline-block;
+}
+
+.values-grid .section-header h2::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 3px;
+  background: var(--accent);
+  margin: 10px auto 0 auto;
+  border-radius: 2px;
+}
+
+.card {
+  background: var(--card-bg);
+  padding: 35px;
+  border-radius: 20px;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-soft);
+  position: relative;
+}
+
+.card:hover {
+  transform: translateY(-10px) scale(1.02);
+  border-color: var(--accent);
+  box-shadow: var(--shadow-hover);
+}
+
+.card-icon {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  background: var(--bg-color);
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid var(--border-color);
+}
+
+.card h3 {
+  color: var(--accent);
+  font-family: 'Dela Gothic One';
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+}
+
+.card p {
+  color: #888;
+  font-size: 0.95rem;
+}
+
+[data-theme="dark"] .card p {
+  color: #b2bec3;
+}
+
+/* =========================================
+   7. TESTIMONIALS & FOOTER
+   ========================================= */
+.section-title {
+  text-align: center;
+  margin-bottom: 40px;
+  font-family: 'Dela Gothic One';
+  font-size: 2rem;
+}
+
+.testi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+}
+
+.testi-card {
+  background: var(--card-bg);
+  padding: 30px;
+  border-radius: 15px;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-soft);
+  position: relative;
+}
+
+.testi-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-5px);
+}
+
+.quote-icon {
+  font-size: 3rem;
+  color: var(--accent);
+  opacity: 0.3;
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-family: serif;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  background: var(--border-color);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+.user span {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #888;
+}
+
+footer {
+  text-align: center;
+  padding: 40px;
+  border-top: 1px solid var(--border-color);
+  color: #888;
+  font-size: 0.8rem;
+  margin-top: 50px;
+}
+
+/* =========================================
+   8. RESPONSIVE MEDIA QUERIES (Page Content Only)
+   ========================================= */
+
+/* Desktop: Posisi "Lihat Semua" */
+@media (min-width: 769px) {
+  .quick-menu {
+    position: relative;
+  }
+
+  .view-all-wrapper {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-top: 0;
+  }
+
+  .view-all {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+  }
+}
+
+/* Tablet & Mobile Layout Fixes */
+@media (max-width: 1024px) {
+  .hero {
+    padding-left: 5%;
+    padding-right: 5%;
+  }
+
+  .container {
+    padding-left: 5%;
+    padding-right: 5%;
+  }
+
+  .hero h1 {
+    font-size: 3rem;
+  }
+
+  .live-status-bar {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding-left: 25px;
+    padding-right: 25px;
+  }
+
+  .hero {
+    height: auto;
+    min-height: auto;
+    padding-top: 140px;
+    padding-bottom: 40px;
+  }
+
+  .hero-body {
+    flex-direction: column-reverse;
+    text-align: center;
+    gap: 30px;
+  }
+
+  .hero-image {
+    max-width: 80%;
+    width: 250px;
+  }
+
+  .live-status-bar {
+    grid-template-columns: 1fr;
+    margin-top: 40px;
+    gap: 15px;
+    padding: 20px;
+  }
+
+  .status-item {
+    justify-content: flex-start;
+    background: rgba(128, 128, 128, 0.05);
+    padding: 10px;
+    border-radius: 10px;
+  }
+
+  .view-all-wrapper {
+    text-align: right;
+    margin-top: 25px;
+  }
+
+  .view-all {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    font-size: 1rem;
+  }
+
+  .testi-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+

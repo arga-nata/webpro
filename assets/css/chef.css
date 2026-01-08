@@ -1,0 +1,308 @@
+/* =========================================
+   STYLE CHEF'S FAVORITE: CLASSY & FUTURISTIC
+   ========================================= */
+
+/* --- HERO SECTION (DESKTOP) --- */
+.chef-hero {
+  position: relative;
+  /* Desktop: Padding Kiri 40px, Kanan 45% */
+  padding: 140px 45% 80px 40px; 
+  background: var(--bg-color);
+  text-align: left;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  min-height: 500px;
+}
+
+/* Background Pattern */
+.chef-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(var(--border-color) 1px, transparent 1px);
+  background-size: 20px 20px;
+  opacity: 0.3;
+  z-index: 0;
+}
+
+/* CONTAINER GAMBAR (DESKTOP) */
+.hero-chef-image {
+  position: absolute;
+  top: 0;
+  right: 0; 
+  width: 55%; 
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* GAMBAR & MASKING (DESKTOP) */
+.hero-chef-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center right;
+  
+  /* Masking Desktop */
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, transparent 10%, black 100%);
+  mask-image: linear-gradient(to right, transparent 0%, transparent 10%, black 100%);
+
+  opacity: 1; 
+  filter: brightness(1.05);
+  transition: all 0.5s ease;
+}
+
+/* KONTEN TEKS */
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 600px;
+  /* Padding 0 karena sudah dihandle parent di desktop */
+  padding: 0; 
+}
+
+.sub-title {
+  display: block;
+  font-size: 0.9rem;
+  letter-spacing: 4px;
+  color: var(--accent);
+  margin-bottom: 15px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.chef-hero h1 {
+  font-family: 'Dela Gothic One', sans-serif;
+  font-size: 4rem;
+  margin-bottom: 20px;
+  line-height: 1.1;
+  color: var(--text-color);
+}
+
+.text-serif {
+  font-family: 'Playfair Display', 'Times New Roman', serif;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--text-color);
+}
+
+.chef-hero p {
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+  opacity: 0.8;
+  line-height: 1.6;
+}
+
+.chef-signature {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  font-style: italic;
+  color: var(--accent);
+  margin-top: 20px;
+  position: relative;
+  display: inline-block;
+}
+
+.chef-signature::before {
+  content: '— ';
+}
+
+/* --- QUOTE & GRID --- */
+.chef-intro {
+  padding: 60px 20px;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.quote-box {
+  position: relative;
+  padding: 0 20px;
+}
+
+.quote-icon {
+  font-size: 2rem;
+  color: var(--border-color);
+  margin-bottom: 15px;
+  display: block;
+}
+
+.quote-box p {
+  font-size: 1.2rem;
+  font-style: italic;
+  line-height: 1.6;
+  color: var(--text-color);
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 40px;
+  padding: 0 5% 100px 5%;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.menu-card {
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  position: relative;
+}
+
+.menu-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.card-image {
+  height: 220px;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.menu-card:hover .card-image img {
+  transform: scale(1.05);
+}
+
+.badge {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background: rgba(255, 255, 255, 0.95);
+  color: black;
+  padding: 5px 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: 4px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.card-details {
+  padding: 25px;
+  text-align: center;
+}
+
+.card-details h3 {
+  font-family: 'Dela Gothic One', sans-serif;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: var(--text-color);
+}
+
+.card-details .desc {
+  font-size: 0.9rem;
+  color: var(--text-color);
+  opacity: 0.7;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.card-details::after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 2px;
+  background: var(--border-color);
+  margin: 0 auto 15px auto;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: center;
+}
+
+.recommendation {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* =========================================
+   RESPONSIVE (HP / MOBILE / TABLET)
+   ========================================= */
+@media (max-width: 992px) {
+  
+  .chef-hero {
+    /* 1. HAPUS PADDING PARENT (Fix Celah Kiri) */
+    padding: 0 !important; 
+    
+    text-align: center;
+    justify-content: center;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+  }
+
+  /* 2. PINDAHKAN PADDING KE CONTENT */
+  .hero-content {
+    padding: 120px 20px 80px 20px;
+    width: 100%;
+    margin: 0 auto;
+    z-index: 2; 
+  }
+
+  /* 3. GAMBAR VIEWPORT LOCK (100vw + Center Fix) */
+  /* Ini teknik 'God Mode' untuk mobile background */
+  .hero-chef-image {
+    position: absolute;
+    top: 0;
+    
+    /* Viewport Lock 100vw: Menjamin lebar layar penuh tanpa peduli padding parent */
+    width: 100vw !important; 
+    height: 100% !important;
+    
+    /* Centering Trick */
+    left: 50% !important;
+    transform: translateX(-50%);
+    right: auto !important;
+    
+    opacity: 0.25;
+    z-index: 0;
+  }
+
+  .hero-chef-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;       
+    object-position: center; 
+    
+    /* MATIKAN MASKING DESKTOP */
+    -webkit-mask-image: none;
+    mask-image: none;
+
+    filter: brightness(0.9);
+  }
+
+  .chef-hero h1 {
+    font-size: 3rem;
+  }
+
+  /* Hilangkan ornamen */
+  .chef-hero::before { display: none; }
+
+  .menu-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+}

@@ -1,0 +1,358 @@
+/* =========================================
+   STYLE MENU: PREMIUM & FUTURISTIC (DUAL MODE FIX)
+   ========================================= */
+
+/* --- HERO SECTION --- */
+.menu-hero {
+  position: relative;
+  /* Padding kiri normal, kanan disesuaikan */
+  padding: 120px 20px 80px 40px; 
+  background: var(--bg-color);
+  text-align: left; /* Desktop: Rata Kiri */
+  overflow: hidden;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  min-height: 500px; /* Tinggi minimum agar gambar leluasa */
+}
+
+/* Background Pattern Halus */
+.menu-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(var(--border-color) 1px, transparent 1px);
+  background-size: 20px 20px;
+  opacity: 0.3;
+  z-index: 0;
+}
+
+/* Container Gambar Kanan */
+.hero-menu-image {
+  position: absolute;
+  top: 0;
+  right: 0; /* Tempel Kanan */
+  width: 55%; /* Lebar area gambar */
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* GAYA 1: LIGHT MODE (DEFAULT) - SUDAH SESUAI */
+/* Seperti Halaman Chef: Penuh & Fade ke Kiri */
+.hero-menu-image img {
+  width: 100%; 
+  height: 100%; 
+  object-fit: cover;
+  object-position: center right; 
+  
+  /* Masking Lurus: Fade dari Kiri (Transparan) ke Kanan (Jelas) */
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 100%);
+
+  opacity: 1; 
+  filter: brightness(1.05);
+  transition: all 0.5s ease;
+}
+
+/* GAYA 2: DARK MODE (UPDATE FIX)
+   Kotak Transparan ke Dalam (Vignette Lebih Halus)
+*/
+[data-theme="dark"] .hero-menu-image img {
+  width: 90%; 
+  height: 80%;
+  border-radius: 20px;
+  object-position: center;
+
+  /* [FIX DARK MODE] Perbesar area transparan (fade) agar pinggiran benar-benar hilang */
+  /* Ubah 'black 60%' jadi 'black 40%' supaya gradasi ke pinggir lebih jauh & halus */
+  -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
+  mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
+  
+  /* Tambahkan opacity sedikit agar blend makin sempurna dengan hitam */
+  opacity: 0.9;
+}
+
+/* Konten Teks */
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 550px;
+}
+
+.japanese-tag {
+  display: block;
+  font-size: 0.9rem;
+  letter-spacing: 3px;
+  color: var(--accent);
+  margin-bottom: 15px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.menu-hero h1 {
+  font-family: 'Dela Gothic One', sans-serif;
+  font-size: 4rem;
+  margin-bottom: 20px;
+  color: var(--text-color);
+  line-height: 1.1;
+}
+
+.text-gradient {
+  background: linear-gradient(90deg, var(--accent), #e17055);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.menu-hero p {
+  font-size: 1.1rem;
+  opacity: 0.8;
+  line-height: 1.6;
+}
+
+/* --- FILTER KATEGORI (TABS) --- */
+.container-menu {
+  padding: 60px 5% 100px 5%;
+}
+
+.category-filter {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 50px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 10px 25px;
+  border: 1px solid var(--border-color);
+  background: var(--card-bg);
+  color: var(--text-color);
+  border-radius: 50px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+  box-shadow: 0 5px 15px rgba(214, 48, 49, 0.3);
+  transform: translateY(-2px);
+}
+
+/* --- MENU GRID --- */
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 30px;
+}
+
+/* --- KARTU MENU (CARD) --- */
+.menu-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  position: relative;
+  /* Efek Glass Halus */
+  backdrop-filter: blur(10px);
+}
+
+.menu-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+  border-color: var(--accent);
+}
+
+/* Wrapper Gambar */
+.card-img-wrapper {
+  height: 220px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.menu-card:hover .card-img-wrapper img {
+  transform: scale(1.1);
+}
+
+/* Badge di Pojok Gambar */
+.badge-fresh,
+.badge-best,
+.badge-vegan {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  padding: 5px 12px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  border-radius: 4px;
+  color: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.badge-fresh { background: #0984e3; } 
+.badge-best { background: #e17055; }  
+.badge-vegan { background: #00b894; } 
+
+/* Info Menu */
+.card-info {
+  padding: 25px;
+}
+
+.info-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.info-header h3 {
+  font-family: 'Dela Gothic One';
+  font-size: 1.2rem;
+  margin: 0;
+  color: var(--text-color);
+}
+
+.jp-name {
+  font-size: 0.8rem;
+  color: var(--border-color);
+  font-weight: 700;
+  opacity: 0.6;
+}
+
+.desc {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--text-color);
+  opacity: 0.7;
+  margin-bottom: 25px;
+  display: -webkit-box;
+  line-clamp: 2;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Bagian Harga & Tombol */
+.price-action {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--border-color);
+  padding-top: 20px;
+}
+
+.price-tag {
+  display: flex;
+  align-items: flex-start;
+  color: var(--text-color);
+}
+
+.currency {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-right: 2px;
+  margin-top: 2px;
+}
+
+.amount {
+  font-family: 'Dela Gothic One';
+  font-size: 1.4rem;
+  letter-spacing: -0.5px;
+}
+
+/* Tombol Order Futuristik */
+.order-btn {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  padding: 8px 18px;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.3s ease;
+}
+
+.order-btn:hover {
+  background: var(--accent);
+  color: white;
+  padding-right: 25px;
+}
+
+.order-btn i {
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+}
+
+.order-btn:hover i {
+  transform: translateX(5px);
+}
+
+/* RESPONSIVE */
+@media (max-width: 992px) {
+  
+  .menu-hero {
+    padding: 120px 20px 80px 20px; 
+    text-align: center;
+    justify-content: center;
+  }
+
+  /* RESET UNTUK MOBILE (Sama di Dark/Light) */
+  .hero-menu-image {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0.8; 
+  }
+
+  .hero-menu-image img,
+  [data-theme="dark"] .hero-menu-image img { /* Reset juga dark mode */
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    
+    /* Fade Bawah ke Atas */
+    -webkit-mask-image: linear-gradient(to top, transparent 0%, black 100%);
+    mask-image: linear-gradient(to top, transparent 0%, black 100%);
+    
+    object-position: center;
+  }
+
+  .hero-content {
+    max-width: 100%;
+  }
+
+  .menu-hero h1 {
+    font-size: 3rem;
+  }
+
+  .menu-grid {
+    grid-template-columns: 1fr;
+  }
+}

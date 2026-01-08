@@ -1,0 +1,290 @@
+/* =========================================
+   STYLE HALAMAN REVIEW
+   ========================================= */
+
+/* --- HERO SECTION --- */
+.review-hero {
+  padding: 100px 5% 60px 5%;
+  /* Padding kiri-kanan disesuaikan */
+  background: var(--bg-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.hero-wrapper {
+  display: flex;
+  justify-content: space-between;
+  /* Teks di Kiri, Stats di Kanan */
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 50px;
+  /* Jarak antar teks dan stats */
+}
+
+/* Area Teks (Kiri) */
+.hero-text {
+  text-align: left;
+  /* Rata Kiri di Desktop */
+  flex: 1;
+  /* Ambil sisa ruang */
+}
+
+.review-hero h1 {
+  font-family: 'Dela Gothic One', cursive;
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  line-height: 1.2;
+}
+
+.review-hero h1 .text-gradient {
+  display: block;
+  /* KUNCI: Memaksa turun baris */
+  font-size: 3.5rem;
+  /* Diperbesar biar gagah di Desktop */
+  margin-top: 5px;
+  /* Jarak dari teks atasnya */
+
+  /* Styling Gradasi Tetap */
+  background: linear-gradient(90deg, var(--accent), #ff7675);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.review-hero p {
+  font-size: 1.1rem;
+  opacity: 0.8;
+  max-width: 600px;
+  margin: 0;
+  /* Margin diatur container */
+}
+
+/* STATISTIK HEADER */
+.review-stats {
+  display: inline-flex;
+  align-items: center;
+  background: var(--card-bg);
+  padding: 20px 40px;
+  border-radius: 16px;
+  box-shadow: var(--shadow-soft);
+  border: 1px solid var(--border-color);
+  gap: 40px;
+  flex-shrink: 0;
+  /* Agar kotak stats tidak menyusut/gepeng */
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.big-num {
+  font-family: 'Dela Gothic One';
+  font-size: 2rem;
+  /* Angka lebih besar dikit */
+  color: var(--text-color);
+  line-height: 1;
+}
+
+.stars {
+  color: #f1c40f;
+  font-size: 1rem;
+  margin: 5px 0;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.border-left {
+  border-left: 1px solid var(--border-color);
+  padding-left: 40px;
+}
+
+/* --- CONTAINER & GRID --- */
+.container-review {
+  padding: 60px 5%;
+}
+
+.review-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 25px;
+}
+
+/* --- KARTU REVIEW --- */
+.review-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hover Effect: Naik dikit + Shadow */
+.review-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--accent);
+}
+
+/* Hiasan Kutipan Besar di Background (Transparan) */
+.review-card::before {
+  content: '“';
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-family: serif;
+  font-size: 6rem;
+  color: var(--accent);
+  opacity: 0.05;
+  pointer-events: none;
+}
+
+/* --- BAGIAN ATAS KARTU (PROFILE) --- */
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.profile {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.profile img {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--bg-color);
+  box-shadow: 0 0 0 1px var(--border-color);
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.verified {
+  color: #3498db;
+  /* Centang Biru */
+  font-size: 1rem;
+}
+
+.time {
+  font-size: 0.75rem;
+  color: var(--text-color);
+  opacity: 0.6;
+}
+
+/* Rating Bintang Kecil di Kartu */
+.rating {
+  color: #f1c40f;
+  font-size: 0.9rem;
+  background: rgba(241, 196, 15, 0.1);
+  padding: 4px 8px;
+  border-radius: 20px;
+}
+
+/* --- ISI REVIEW --- */
+.card-body p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-color);
+  opacity: 0.9;
+  margin-bottom: 20px;
+}
+
+/* --- FOOTER KARTU (MENU TAG) --- */
+.card-footer {
+  border-top: 1px solid var(--border-color);
+  padding-top: 15px;
+}
+
+.menu-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent);
+  background: rgba(214, 48, 49, 0.08);
+  /* Background merah sangat muda */
+  padding: 6px 12px;
+  border-radius: 8px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .review-hero {
+    padding: 100px 20px 60px 20px;
+  }
+
+  /* KHUSUS HP: Judul jadi fleksibel (Nyambung Natural) */
+  .review-hero h1 .text-gradient {
+    display: inline;
+    /* Kembali nyambung satu baris/wrap natural */
+    font-size: inherit;
+    /* Ukuran ngikutin h1 induknya */
+    margin-top: 0;
+  }
+
+  /* Ubah Layout jadi Atas-Bawah */
+  .hero-wrapper {
+    flex-direction: column;
+    text-align: center;
+    gap: 30px;
+  }
+
+  .hero-text {
+    text-align: center;
+  }
+
+  .review-hero p {
+    font-size: 0.9rem;
+    /* Mengecil (sebelumnya 1.1rem) */
+    line-height: 1.5;
+    opacity: 0.8;
+    margin: 0 auto;
+    padding: 0 10px;
+    /* Jarak aman kiri-kanan */
+  }
+
+  .review-stats {
+    width: 100%;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .border-left {
+    padding-left: 20px;
+  }
+
+  .review-grid {
+    grid-template-columns: 1fr;
+    /* 1 Kolom di HP */
+  }
+}
