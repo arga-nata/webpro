@@ -3,14 +3,14 @@ session_start();
 include '../db.php'; // Pastikan path koneksi DB benar
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    
+
     // 1. AMBIL DATA PELANGGAN (Sanitize Input)
-    $nama     = mysqli_real_escape_string($conn, $_POST['nama']);
-    $hp       = mysqli_real_escape_string($conn, $_POST['hp']);
-    $alamat   = mysqli_real_escape_string($conn, $_POST['alamat']);
-    $metode   = mysqli_real_escape_string($conn, $_POST['pembayaran']); // cod, transfer, wallet
-    $catatan  = mysqli_real_escape_string($conn, $_POST['catatan_umum']);
-    
+    $nama = mysqli_real_escape_string($conn, $_POST['nama']);
+    $hp = mysqli_real_escape_string($conn, $_POST['hp']);
+    $alamat = mysqli_real_escape_string($conn, $_POST['alamat']);
+    $metode = mysqli_real_escape_string($conn, $_POST['pembayaran']); // cod, transfer, wallet
+    $catatan = mysqli_real_escape_string($conn, $_POST['catatan_umum']);
+
     // Validasi Sederhana
     if (empty($nama) || empty($hp) || empty($alamat) || empty($_POST['items'])) {
         echo "<script>alert('Data pesanan tidak lengkap!'); window.history.back();</script>";
@@ -24,11 +24,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // 3. LOOPING ITEM UNTUK HITUNG TOTAL HARGA (Server-Side Validation)
     foreach ($items as $item) {
-        $menu_id    = (int)$item['menu_id'];
-        $qty        = (int)$item['qty'];
-        $variant_id = !empty($item['variant_id']) ? (int)$item['variant_id'] : "NULL";
-        $addon_id   = !empty($item['addon_id']) ? (int)$item['addon_id'] : "NULL";
-        $note       = mysqli_real_escape_string($conn, $item['note']);
+        $menu_id = (int) $item['menu_id'];
+        $qty = (int) $item['qty'];
+        $variant_id = !empty($item['variant_id']) ? (int) $item['variant_id'] : "NULL";
+        $addon_id = !empty($item['addon_id']) ? (int) $item['addon_id'] : "NULL";
+        $note = mysqli_real_escape_string($conn, $item['note']);
 
         // Ambil Harga Menu
         $q_menu = mysqli_query($conn, "SELECT base_price FROM menu_items WHERE id = $menu_id");
@@ -71,7 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // 4. INSERT KE TABEL ORDERS (HEADER)
     $sql_order = "INSERT INTO orders (customer_name, customer_phone, delivery_address, payment_method, total_amount, notes_general, status) 
                   VALUES ('$nama', '$hp', '$alamat', '$metode', '$grand_total', '$catatan', 'pending')";
-    
+
     if (mysqli_query($conn, $sql_order)) {
         // Ambil ID Order yang baru saja dibuat
         $order_id = mysqli_insert_id($conn);
@@ -94,5 +94,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 } else {
     header("Location: ../../order.php");
     exit;
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && $_POST['action'] == 'accept') {
+    $order_id = intval($_POST['order_id']);
+
+    // Update status jadi 'cooking'
+    $update = mysqli_query($conn, "UPDATE orders SET status = 'cooking' WHERE id = $order_id");
+
+    if ($update) {
+        // Refresh halaman otomatis
+        header("Location: dashboard.php");
+        exit;
+    }
 }
 ?>
