@@ -1,7 +1,10 @@
 <?php
 session_start();
 // Hubungkan Database untuk Pengecekan Sesi
-include '../config/db.php'; 
+include '../config/db.php';
+
+$pageTitle = "Home"; // Judul yang muncul di Tab Browser
+$currentPage = "home";
 
 $pageTitle = "Home"; 
 $currentPage = "home"; // Pastikan ini sama dengan kata kunci di sidebar.php
@@ -13,8 +16,8 @@ header("Pragma: no-cache");
 
 // 1. CEK STATUS LOGIN DASAR
 if (!isset($_SESSION['login']) || $_SESSION['login'] !== true) {
-    header("Location: login.php");
-    exit;
+  header("Location: login.php");
+  exit;
 }
 
 // 2. CEK SINGLE DEVICE (FITUR BARU)
@@ -29,34 +32,111 @@ $check_row = mysqli_fetch_assoc($check_result);
 
 // Jika Session ID di database BEDA dengan di browser, berarti ada login baru di tempat lain
 if ($check_row['last_session_id'] !== $my_session_id) {
-    // Hancurkan sesi paksa
-    session_unset();
-    session_destroy();
-    
-    // Mulai sesi baru cuma buat ngasih pesan error
-    session_start();
-    $_SESSION['flash_status'] = 'error';
-    $_SESSION['flash_message'] = 'Akun Anda telah login di perangkat lain. Anda keluar otomatis.';
-    
-    header("Location: login.php");
-    exit;
+  // Hancurkan sesi paksa
+  session_unset();
+  session_destroy();
+
+  // Mulai sesi baru cuma buat ngasih pesan error
+  session_start();
+  $_SESSION['flash_status'] = 'error';
+  $_SESSION['flash_message'] = 'Akun Anda telah login di perangkat lain. Anda keluar otomatis.';
+
+  header("Location: login.php");
+  exit;
 }
 
 // AMBIL NAMA ADMIN DARI SESSION
 $adminName = isset($_SESSION['admin_user']) ? ucfirst($_SESSION['admin_user']) : "Admin";
 
+// --- LOGIKA UPDATE STATUS (Insert di sini) ---
+// --- LOGIKA UPDATE STATUS (REVISI LENGKAP) ---
+// --- LOGIKA UPDATE STATUS (REVISI FINAL) ---
+// --- LOGIKA UPDATE STATUS (LENGKAP: TERIMA, ANTAR, SELESAI, TOLAK) ---
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
+  $order_id = intval($_POST['order_id']);
+  $action = $_POST['action'];
+  $new_status = '';
+
+  // 1. Cek tombol apa yang diklik
+  if ($action == 'accept') {
+    $new_status = 'cooking';
+  } elseif ($action == 'deliver') {
+    $new_status = 'delivery';
+  } elseif ($action == 'complete') {
+    $new_status = 'completed';
+  }
+  // --- INI BAGIAN KODE YANG KAMU TANYAKAN TADI ---
+  elseif ($action == 'reject') {
+    $new_status = 'cancelled';
+
+    // Simpan alasan penolakan jika ada
+    if (isset($_POST['alasan_tolak']) && !empty($_POST['alasan_tolak'])) {
+      $reason = mysqli_real_escape_string($conn, $_POST['alasan_tolak']);
+      // Tambahkan alasan ke notes database
+      mysqli_query($conn, "UPDATE orders SET notes_general = CONCAT(IFNULL(notes_general, ''), ' [Ditolak: $reason]') WHERE id = $order_id");
+    }
+  }
+  // -----------------------------------------------
+
+  // 2. Eksekusi Update ke Database
+  if ($new_status != '') {
+    $update = mysqli_query($conn, "UPDATE orders SET status = '$new_status' WHERE id = $order_id");
+    if ($update) {
+      header("Location: dashboard.php"); // Refresh halaman
+      exit;
+    }
+  }
+}
+
+// --- GANTI BAGIAN INI (Step 1) ---
+
+// 1. Hitung Pesanan Pending
+$q_pending = mysqli_query($conn, "SELECT COUNT(*) as total FROM orders WHERE status = 'pending'");
+$d_pending = mysqli_fetch_assoc($q_pending);
+
+// 2. Hitung Omset Hari Ini (Hanya status 'completed')
+$today = date('Y-m-d');
+$q_omset = mysqli_query($conn, "SELECT SUM(total_amount) as total FROM orders WHERE status = 'completed' AND DATE(created_at) = '$today'");
+$d_omset = mysqli_fetch_assoc($q_omset);
+
+// 3. Hitung Total Menu
+$q_menu = mysqli_query($conn, "SELECT COUNT(*) as total FROM menu_items");
+$d_menu = mysqli_fetch_assoc($q_menu);
+
+// Masukkan data asli ke variabel $stats
 $stats = [
-  'pesanan_pending' => 12,
-  'total_omset' => "Rp 4.500.000",
-  'menu_total' => 32
+  'pesanan_pending' => $d_pending['total'] ?? 0,
+  'total_omset' => "Rp " . number_format($d_omset['total'] ?? 0, 0, ',', '.'),
+  'menu_total' => $d_menu['total'] ?? 0
 ];
 
-// Contoh data tabel
-$orders = [
-  ['id' => '#ORD-001', 'nama' => 'Budi Santoso', 'menu' => 'Salmon Roll (2)', 'total' => 'Rp 90.000', 'status' => 'pending'],
-  ['id' => '#ORD-002', 'nama' => 'Siti Aminah', 'menu' => 'Tuna Maki (1)', 'total' => 'Rp 35.000', 'status' => 'pending'],
-  ['id' => '#ORD-003', 'nama' => 'Driver Gojek', 'menu' => 'Paket Hemat A', 'total' => 'Rp 120.000', 'status' => 'success'],
-];
+// Cari bagian ini dan ganti dengan kode di bawah:
+$q_orders = mysqli_query($conn, "
+    SELECT o.id, o.customer_name, o.total_amount, o.status,
+    GROUP_CONCAT(CONCAT(m.name, ' (', od.quantity, ')') SEPARATOR ', ') as menu_list
+    FROM orders o
+    LEFT JOIN order_details od ON o.id = od.order_id
+    LEFT JOIN menu_items m ON od.menu_item_id = m.id
+    WHERE o.status != 'completed' AND o.status != 'cancelled'
+    GROUP BY o.id
+    ORDER BY o.created_at DESC
+");
+while ($row = mysqli_fetch_assoc($q_orders)) {
+  // Mapping status DB (completed) ke class CSS (misal: success) jika perlu
+  $css_status = $row['status'];
+  if ($row['status'] == 'completed')
+    $css_status = 'success'; // Sesuaikan dengan CSS kamu
+
+  $orders[] = [
+    'id' => '#ORD-' . str_pad($row['id'], 3, '0', STR_PAD_LEFT), // Bikin ID jadi #ORD-001
+    'nama' => htmlspecialchars($row['customer_name']),
+    'menu' => $row['menu_list'] ?: 'Item dihapus',
+    'total' => 'Rp ' . number_format($row['total_amount'], 0, ',', '.'),
+    'status' => $css_status, // Untuk class warna badge
+    'status_text' => $row['status'] // Untuk teks asli
+  ];
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -65,7 +145,7 @@ $orders = [
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><?= $pageTitle ?> - Street Sushi</title>
+  <title>Home - Street Sushi</title>
 
   <link rel="shortcut icon" href="../assets/images/favicon.ico" type="image/x-icon">
 
@@ -136,16 +216,48 @@ $orders = [
 
                   <td>
                     <span class="badge <?php echo $o['status']; ?>">
-                      <?php echo ucfirst($o['status']); ?>
+                      <?php echo ucfirst($o['status_text']); ?>
                     </span>
                   </td>
 
                   <td>
-                    <?php if ($o['status'] == 'pending'): ?>
-                      <button class="btn-sm btn-acc" title="Terima"><i class='bx bx-check'></i></button>
-                      <button class="btn-sm btn-rej" title="Tolak" onclick="openRejectModal('<?php echo $o['id']; ?>')"><i class='bx bx-x'></i></button>
+                    <?php if ($o['status_text'] == 'pending'): ?>
+                      <form action="" method="POST" style="display:inline;">
+                        <input type="hidden" name="order_id" value="<?php echo intval(substr($o['id'], 5)); ?>">
+                        <input type="hidden" name="action" value="accept">
+                        <button type="submit" class="btn-sm btn-acc" title="Terima (Masak)">
+                          <i class='bx bx-check'></i>
+                        </button>
+                      </form>
+
+                      <button class="btn-sm btn-rej" title="Tolak"
+                        onclick="openRejectModal('<?php echo intval(substr($o['id'], 5)); ?>')">
+                        <i class='bx bx-x'></i>
+                      </button>
+
+                    <?php elseif ($o['status_text'] == 'cooking'): ?>
+                      <form action="" method="POST" style="display:inline;">
+                        <input type="hidden" name="order_id" value="<?php echo intval(substr($o['id'], 5)); ?>">
+                        <input type="hidden" name="action" value="deliver">
+                        <button type="submit" class="btn-sm" style="background:#3498db; color:white;" title="Antar Pesanan">
+                          <i class='bx bxs-truck'></i> Antar
+                        </button>
+                      </form>
+
+                    <?php elseif ($o['status_text'] == 'delivery'): ?>
+                      <form action="" method="POST" style="display:inline;">
+                        <input type="hidden" name="order_id" value="<?php echo intval(substr($o['id'], 5)); ?>">
+                        <input type="hidden" name="action" value="complete">
+                        <button type="submit" class="btn-sm" style="background:#27ae60; color:white;"
+                          title="Selesaikan Order">
+                          <i class='bx bxs-check-circle'></i> Selesai
+                        </button>
+                      </form>
+
                     <?php else: ?>
-                      <span style="color:#555; font-size:0.8rem;">Selesai</span>
+                      <span style="font-size:0.8rem; color:#888;">
+                        <i class='bx bx-history'></i> Riwayat
+                      </span>
                     <?php endif; ?>
                   </td>
                 </tr>
@@ -156,36 +268,37 @@ $orders = [
 
       </div>
     </div>
-  </div> 
-  
+  </div>
+
   <?php include '../assets/components/modal_reject.php'; ?>
 
   <div class="mobile-overlay"></div>
 
   <script>
-        const sidebar = document.querySelector('.sidebar');
-        const mainContent = document.querySelector('.main-content');
-        const toggleBtn = document.querySelector('.toggle-btn');
-        const overlay = document.querySelector('.mobile-overlay');
+    const sidebar = document.querySelector('.sidebar');
+    const mainContent = document.querySelector('.main-content');
+    const toggleBtn = document.querySelector('.toggle-btn');
+    const overlay = document.querySelector('.mobile-overlay');
 
-        // Pastikan overlay ada sebelum menjalankan logic
-        if (overlay) {
-            toggleBtn.addEventListener('click', () => {
-                if (window.innerWidth > 768) {
-                    sidebar.classList.toggle('close');
-                } else {
-                    sidebar.classList.toggle('active');
-                    overlay.classList.toggle('active');
-                    sidebar.classList.remove('close'); 
-                }
-            });
-
-            overlay.addEventListener('click', () => {
-                sidebar.classList.remove('active');
-                overlay.classList.remove('active');
-            });
+    // Pastikan overlay ada sebelum menjalankan logic
+    if (overlay) {
+      toggleBtn.addEventListener('click', () => {
+        if (window.innerWidth > 768) {
+          sidebar.classList.toggle('close');
+        } else {
+          sidebar.classList.toggle('active');
+          overlay.classList.toggle('active');
+          sidebar.classList.remove('close');
         }
+      });
+
+      overlay.addEventListener('click', () => {
+        sidebar.classList.remove('active');
+        overlay.classList.remove('active');
+      });
+    }
   </script>
 
 </body>
+
 </html>
