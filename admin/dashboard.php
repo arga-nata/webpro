@@ -3,6 +3,9 @@ session_start();
 // Hubungkan Database untuk Pengecekan Sesi
 include '../config/db.php'; 
 
+$pageTitle = "Home"; 
+$currentPage = "home"; // Pastikan ini sama dengan kata kunci di sidebar.php
+
 // --- SCRIPT ANTI-CACHE ---
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Cache-Control: post-check=0, pre-check=0", false);
@@ -62,7 +65,7 @@ $orders = [
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard - Street Sushi</title>
+  <title><?= $pageTitle ?> - Street Sushi</title>
 
   <link rel="shortcut icon" href="../assets/images/favicon.ico" type="image/x-icon">
 

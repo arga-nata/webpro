@@ -11,8 +11,7 @@
       <h1>Street Food,<br>Premium Taste.</h1>
       <p>Nikmati sensasi sushi berkualitas restoran dengan kearifan lokal, disajikan dengan teknologi dan kecepatan masa depan.</p>
       <div class="hero-buttons">
-        <a href="#menu-pilihan" class="cta-btn primary">Pesan Sekarang</a>
-        <a href="#status" class="cta-btn secondary">Cek Antrian</a>
+        <a href="order.php" class="cta-btn primary">Pesan Sekarang</a>
       </div>
     </div>
 
@@ -66,7 +65,7 @@
         <div class="menu-info">
           <h3>Salmon Roll</h3>
           <p>Rp 25.000</p>
-          <button class="add-btn">+</button>
+          <button class="add-btn" onclick="window.location.href='order.php'">+</button>
         </div>
       </div>
       <div class="menu-card-glass">
@@ -74,7 +73,7 @@
         <div class="menu-info">
           <h3>Tuna Roll</h3>
           <p>Rp 22.000</p>
-          <button class="add-btn">+</button>
+          <button class="add-btn" onclick="window.location.href='order.php'">+</button>
         </div>
       </div>
       <div class="menu-card-glass">
@@ -82,7 +81,7 @@
         <div class="menu-info">
           <h3>Tamago Roll</h3>
           <p>Rp 18.000</p>
-          <button class="add-btn">+</button>
+          <button class="add-btn" onclick="window.location.href='order.php'">+</button>
         </div>
       </div>
     </div>
