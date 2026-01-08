@@ -6,6 +6,9 @@ include '../config/db.php';
 $pageTitle = "Home"; // Judul yang muncul di Tab Browser
 $currentPage = "home";
 
+$pageTitle = "Home"; 
+$currentPage = "home"; // Pastikan ini sama dengan kata kunci di sidebar.php
+
 // --- SCRIPT ANTI-CACHE ---
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Cache-Control: post-check=0, pre-check=0", false);

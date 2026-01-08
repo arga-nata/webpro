@@ -6,31 +6,35 @@
 
   <ul class="side-menu">
     <li>
-      <a href="dashboard.php" class="active">
+      <a href="dashboard.php" class="<?= ($currentPage == 'home') ? 'active' : '' ?>">
         <i class='bx bxs-dashboard'></i>
-        <span>Dashboard</span>
+        <span>Home</span>
       </a>
     </li>
+    
     <li>
-      <a href="pesanan.php">
+      <a href="pesanan.php" class="<?= ($currentPage == 'pesanan') ? 'active' : '' ?>">
         <i class='bx bxs-shopping-bag'></i>
         <span>Pesanan</span>
       </a>
     </li>
+    
     <li>
-      <a href="menu.php">
+      <a href="menu.php" class="<?= ($currentPage == 'menu') ? 'active' : '' ?>">
         <i class='bx bxs-sushi'></i>
-        <span>Daftar Menu</span>
+        <span>Menu</span>
       </a>
     </li>
+    
     <li>
-      <a href="laporan.php">
+      <a href="laporan.php" class="<?= ($currentPage == 'laporan') ? 'active' : '' ?>">
         <i class='bx bxs-report'></i>
         <span>Laporan</span>
       </a>
     </li>
+    
     <li>
-      <a href="users.php">
+      <a href="users.php" class="<?= ($currentPage == 'users') ? 'active' : '' ?>">
         <i class='bx bxs-user-detail'></i>
         <span>Pelanggan</span>
       </a>
