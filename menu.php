@@ -4,12 +4,15 @@ $currentPage = "menu";
 
 include 'config/db.php';
 include 'includes/header.php';
+
+// Query ambil data menu
 $query = "SELECT m.*, c.name as category_name 
             FROM menu_items m 
             LEFT JOIN categories c ON m.category_id = c.id
             ORDER BY m.id DESC";
 $result = mysqli_query($conn, $query);
 
+// Query ambil kategori untuk filter
 $cat_query = "SELECT * FROM categories ORDER BY name ASC";
 $cat_result = mysqli_query($conn, $cat_query);
 ?>
@@ -23,9 +26,8 @@ $cat_result = mysqli_query($conn, $cat_query);
 </style>
 
 <header class="menu-hero">
-
   <div class="hero-menu-image">
-    <img src="assets/images/gambar2.jpg" alt="Premium Sushi Platter">
+    <img src="assets/images/menu/gambar2.jpg" alt="Premium Sushi Platter">
   </div>
 
   <div class="hero-overlay"></div>
@@ -55,27 +57,50 @@ $cat_result = mysqli_query($conn, $cat_query);
     // Cek jika ada data menu
     if (mysqli_num_rows($result) > 0) {
       while ($row = mysqli_fetch_assoc($result)) {
-        // Format Harga (Contoh: 25000 -> 25.000)
+
+        // 1. Format Harga
         $price = number_format($row['base_price'], 0, ',', '.');
 
-        // Gambar (Pakai gambar default jika null)
-        $image = !empty($row['image']) ? "assets/images/" . $row['image'] : "assets/images/sushi-default.jpg";
-        ?>
+        // 2. LOGIKA GAMBAR (CERDAS)
+        // A. Set Default dulu (Ini akan dipakai jika DB NULL atau File tidak ketemu)
+        // Pastikan kamu punya file 'default.jpg' di folder assets/images/menu/
+        $img_src = "assets/images/menu/Default.jpg"; 
+
+        // B. Cek apakah database punya data gambar (TIDAK NULL/KOSONG)?
+        if (!empty($row['image'])) {
+            // Cek Prioritas 1: Folder Uploads (Untuk data yang baru diinput admin)
+            if (file_exists("assets/uploads/" . $row['image'])) {
+                $img_src = "assets/uploads/" . $row['image'];
+            } 
+            // Cek Prioritas 2: Folder Menu Bawaan (Untuk data bawaan tema)
+            elseif (file_exists("assets/images/menu/" . $row['image'])) {
+                $img_src = "assets/images/menu/" . $row['image'];
+            }
+            // Cek Prioritas 3: Folder Images Root (Jaga-jaga)
+            elseif (file_exists("assets/images/" . $row['image'])) {
+                $img_src = "assets/images/" . $row['image'];
+            }
+        }
+        // Jika $row['image'] kosong, dia akan melewati blok IF dan tetap pakai default.jpg
+    ?>
+
         <div class="menu-card" data-category="<?php echo $row['category_id']; ?>">
           <div class="card-img-wrapper">
-            <img src="<?php echo $image; ?>" alt="<?php echo $row['name']; ?>">
+            <img src="<?php echo $img_src; ?>" alt="<?php echo $row['name']; ?>" loading="lazy">
 
-            <?php if ($row['base_price'] >= 35000): ?>
+            <?php if ($row['base_price'] >= 45000): ?>
               <span class="badge-best">Best Seller</span>
             <?php elseif (strpos(strtolower($row['name']), 'salmon') !== false): ?>
               <span class="badge-fresh">Fresh Catch</span>
             <?php endif; ?>
           </div>
+
           <div class="card-info">
             <div class="info-header">
               <h3><?php echo $row['name']; ?></h3>
-              <span class="jp-name"><?php echo $row['category_name']; ?></span>
+              <span class="jp-name"><?php echo isset($row['category_name']) ? $row['category_name'] : 'Menu'; ?></span>
             </div>
+
             <p class="desc"><?php echo $row['description']; ?></p>
 
             <div class="price-action">
@@ -90,134 +115,18 @@ $cat_result = mysqli_query($conn, $cat_query);
           </div>
         </div>
 
-        <?php
+    <?php
       }
     } else {
-      echo "<p style='text-align:center; width:100%; color:white;'>Belum ada menu yang tersedia.</p>";
+      // Tampilan jika Database Kosong
+      echo "<p style='text-align:center; width:100%; color:#92929f; padding:50px; font-style:italic;'>Belum ada menu yang tersedia saat ini.</p>";
     }
     ?>
-
-    <!-- <div class="menu-card">
-      <div class="card-img-wrapper">
-        <img src="assets/images/tuna-roll.jpg" alt="Tuna Roll">
-      </div>
-      <div class="card-info">
-        <div class="info-header">
-          <h3>Tuna Roll</h3>
-          <span class="jp-name">マグロ</span>
-        </div>
-        <p class="desc">Tuna merah segar berpadu dengan nasi lembut dan wijen panggang untuk aroma yang kaya.</p>
-
-        <div class="price-action">
-          <div class="price-tag">
-            <span class="currency">Rp</span>
-            <span class="amount">22.000</span>
-          </div>
-          <a href="order.php" class="order-btn">
-            Order <i class='bx bx-right-arrow-alt'></i>
-          </a>
-        </div>
-      </div>
-    </div> -->
-
-    <!-- <div class="menu-card">
-      <div class="card-img-wrapper">
-        <img src="assets/images/Tamago-Roll.jpg" alt="Tamago Roll">
-        <span class="badge-best">Best Seller</span>
-      </div>
-      <div class="card-info">
-        <div class="info-header">
-          <h3>Tamago Roll</h3>
-          <span class="jp-name">卵焼き</span>
-        </div>
-        <p class="desc">Omelet Jepang manis gurih yang lembut, favorit semua kalangan dari anak-anak hingga dewasa.</p>
-
-        <div class="price-action">
-          <div class="price-tag">
-            <span class="currency">Rp</span>
-            <span class="amount">18.000</span>
-          </div>
-          <a href="order.php" class="order-btn">
-            Order <i class='bx bx-right-arrow-alt'></i>
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <div class="menu-card">
-      <div class="card-img-wrapper">
-        <img src="assets/images/Shrimp-Tempura-Roll.jpg" alt="Shrimp Tempura">
-      </div>
-      <div class="card-info">
-        <div class="info-header">
-          <h3>Shrimp Tempura</h3>
-          <span class="jp-name">海老天</span>
-        </div>
-        <p class="desc">Udang tempura renyah dengan saus mayo pedas manis. Tekstur krispi yang bikin nagih.</p>
-
-        <div class="price-action">
-          <div class="price-tag">
-            <span class="currency">Rp</span>
-            <span class="amount">27.000</span>
-          </div>
-          <a href="order.php" class="order-btn">
-            Order <i class='bx bx-right-arrow-alt'></i>
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <div class="menu-card">
-      <div class="card-img-wrapper">
-        <img src="assets/images/Crab-Roll.jpg" alt="Crab Roll">
-      </div>
-      <div class="card-info">
-        <div class="info-header">
-          <h3>Crab Roll</h3>
-          <span class="jp-name">カニ</span>
-        </div>
-        <p class="desc">Daging kepiting lembut dengan irisan timun segar. Pilihan ringan namun memuaskan.</p>
-
-        <div class="price-action">
-          <div class="price-tag">
-            <span class="currency">Rp</span>
-            <span class="amount">20.000</span>
-          </div>
-          <a href="order.php" class="order-btn">
-            Order <i class='bx bx-right-arrow-alt'></i>
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <div class="menu-card">
-      <div class="card-img-wrapper">
-        <img src="assets/images/Avocado-Roll.jpg" alt="Avocado Roll">
-        <span class="badge-vegan">Vegan</span>
-      </div>
-      <div class="card-info">
-        <div class="info-header">
-          <h3>Avocado Roll</h3>
-          <span class="jp-name">アボカド</span>
-        </div>
-        <p class="desc">Alpukat mentega yang creamy dengan sedikit minyak wijen. Sehat, lezat, dan menyegarkan.</p>
-
-        <div class="price-action">
-          <div class="price-tag">
-            <span class="currency">Rp</span>
-            <span class="amount">19.000</span>
-          </div>
-          <a href="order.php" class="order-btn">
-            Order <i class='bx bx-right-arrow-alt'></i>
-          </a>
-        </div>
-      </div>
-    </div> -->
 
   </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
       const filterBtns = document.querySelectorAll('.filter-btn');
       const menuCards = document.querySelectorAll('.menu-card');
 

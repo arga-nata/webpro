@@ -35,7 +35,7 @@
     
     <div class="menu-card">
       <div class="card-image">
-        <img src="assets/images/sushi1.jpg" alt="Salmon Mentai Roll">
+        <img src="assets/images/menu/sushi1.jpg" alt="Salmon Mentai Roll">
         <div class="badge">Most Loved</div>
       </div>
       <div class="card-details">
@@ -49,7 +49,7 @@
 
     <div class="menu-card">
       <div class="card-image">
-        <img src="assets/images/tamagosupreme.jpg" alt="Tamago Supreme">
+        <img src="assets/images/menu/tamagosupreme.jpg" alt="Tamago Supreme">
       </div>
       <div class="card-details">
         <h3>Tamago Supreme</h3>
@@ -62,7 +62,7 @@
 
     <div class="menu-card">
       <div class="card-image">
-        <img src="assets/images/steetspecial.jpg" alt="Street Special Roll">
+        <img src="assets/images/menu/steetspecial.jpg" alt="Street Special Roll">
         <div class="badge">Signature</div>
       </div>
       <div class="card-details">
@@ -76,7 +76,7 @@
 
     <div class="menu-card">
       <div class="card-image">
-        <img src="assets/images/spicytuna.jpg" alt="Spicy Tuna Bomb">
+        <img src="assets/images/menu/spicytuna.jpg" alt="Spicy Tuna Bomb">
       </div>
       <div class="card-details">
         <h3>Spicy Tuna Bomb</h3>
@@ -89,7 +89,7 @@
 
     <div class="menu-card">
       <div class="card-image">
-        <img src="assets/images/ebitempuraroll.jpg" alt="Ebi Tempura Roll">
+        <img src="assets/images/menu/ebitempuraroll.jpg" alt="Ebi Tempura Roll">
       </div>
       <div class="card-details">
         <h3>Ebi Tempura Roll</h3>
@@ -102,7 +102,7 @@
 
     <div class="menu-card">
       <div class="card-image">
-        <img src="assets/images/salmonaburi.jpg" alt="Salmon Aburi">
+        <img src="assets/images/menu/salmonaburi.jpg" alt="Salmon Aburi">
       </div>
       <div class="card-details">
         <h3>Salmon Aburi</h3>

@@ -15,14 +15,14 @@
     <li>
       <a href="pesanan.php" class="<?= ($currentPage == 'pesanan') ? 'active' : '' ?>">
         <i class='bx bxs-shopping-bag'></i>
-        <span>Pesanan</span>
+        <span>History</span>
       </a>
     </li>
     
     <li>
-      <a href="menu.php" class="<?= ($currentPage == 'menu') ? 'active' : '' ?>">
+      <a href="manage.php" class="<?= ($currentPage == 'manage') ? 'active' : '' ?>">
         <i class='bx bxs-sushi'></i>
-        <span>Menu</span>
+        <span>Manage</span>
       </a>
     </li>
     
@@ -32,13 +32,7 @@
         <span>Laporan</span>
       </a>
     </li>
-    
-    <li>
-      <a href="users.php" class="<?= ($currentPage == 'users') ? 'active' : '' ?>">
-        <i class='bx bxs-user-detail'></i>
-        <span>Pelanggan</span>
-      </a>
-    </li>
+
   </ul>
 
   <div class="sidebar-footer">

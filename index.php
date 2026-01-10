@@ -16,7 +16,7 @@
     </div>
 
     <div class="hero-image">
-      <img src="assets/images/Iconik.png" alt="iconik">
+      <img src="assets/images/menu/Iconik.png" alt="iconik">
       <div class="glow-effect"></div>
     </div>
   </div>
@@ -61,7 +61,7 @@
 
     <div class="menu-grid">
       <div class="menu-card-glass">
-        <img src="assets/images/Salmon-roll.jpg" alt="Salmon Roll">
+        <img src="assets/images/menu/Salmon-roll.jpg" alt="Salmon Roll">
         <div class="menu-info">
           <h3>Salmon Roll</h3>
           <p>Rp 25.000</p>
@@ -69,7 +69,7 @@
         </div>
       </div>
       <div class="menu-card-glass">
-        <img src="assets/images/tuna-roll.jpg" alt="Tuna Roll">
+        <img src="assets/images/menu/tuna-roll.jpg" alt="Tuna Roll">
         <div class="menu-info">
           <h3>Tuna Roll</h3>
           <p>Rp 22.000</p>
@@ -77,7 +77,7 @@
         </div>
       </div>
       <div class="menu-card-glass">
-        <img src="assets/images/Tamago-Roll.jpg" alt="Tamago Roll">
+        <img src="assets/images/menu/Tamago-Roll.jpg" alt="Tamago Roll">
         <div class="menu-info">
           <h3>Tamago Roll</h3>
           <p>Rp 18.000</p>

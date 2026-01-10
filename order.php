@@ -299,7 +299,7 @@
                         <label>Kategori</label>
                         <div class="select-wrapper">
                             <select class="category-select" onchange="filterMenus(this)" required>
-                                <option value="" disabled selected>-- Pilih Kategori --</option>
+                                <option value="" disabled selected> kategori </option>
                                 <?php foreach($categories as $c): ?>
                                     <option value="<?= $c['id'] ?>"><?= $c['name'] ?></option>
                                 <?php endforeach; ?>
@@ -312,7 +312,7 @@
                         <label>Pilih Menu</label>
                         <div class="select-wrapper">
                             <select name="items[0][menu_id]" class="menu-select" required onchange="calculateItemTotal(this); calculateGrandTotal();" disabled>
-                                <option value="" data-price="0">-- Pilih Kategori Dulu --</option>
+                                <option value="" data-price="0"> Tentukan kategori </option>
                             </select>
                             <i class='bx bx-chevron-down arrow-icon'></i>
                         </div>
@@ -445,8 +445,8 @@
             <li><i class='bx bxs-star'></i><span>Rating 4.9/5 dari Pelanggan</span></li>
           </ul>
           <div class="mini-gallery">
-            <img src="assets/images/sushi1.jpg" alt="Preview 1">
-            <img src="assets/images/salmonaburi.jpg" alt="Preview 2">
+            <img src="assets/images/menu/sushi1.jpg" alt="Preview 1">
+            <img src="assets/images/menu/salmonaburi.jpg" alt="Preview 2">
           </div>
         </div>
         <img src="assets/images/chef.jpeg" alt="Background" class="bg-visual">
@@ -469,7 +469,7 @@ function filterMenus(categorySelect) {
     const selectedCatId = categorySelect.value;
     const subtotalText = card.querySelector('.item-subtotal');
 
-    menuSelect.innerHTML = '<option value="" data-price="0" selected>-- Pilih Menu --</option>';
+    menuSelect.innerHTML = '<option value="" data-price="0" selected> Pilih Menu </option>';
     menuSelect.disabled = false;
     subtotalText.innerText = "Rp 0";
 
@@ -534,7 +534,7 @@ function addNewItem() {
         if (input.tagName === 'SELECT') {
             input.selectedIndex = 0;
             if(input.classList.contains('menu-select')) {
-                input.innerHTML = '<option value="" data-price="0">-- Pilih Kategori Dulu --</option>';
+                input.innerHTML = '<option value="" data-price="0"> kategori </option>';
                 input.disabled = true;
             }
         } else if (input.type === 'number') {

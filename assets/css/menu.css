@@ -235,10 +235,17 @@
 }
 
 .jp-name {
-  font-size: 0.8rem;
-  color: var(--border-color);
+  display: inline-block;          /* Wajib agar padding & background berfungsi */
+  background: rgba(214, 48, 49, 0.1); /* Background Merah Transparan (Soft) */
+  color: var(--text-color);         /* Teks Merah Sesuai Tema */
+  font-size: 0.75rem;             /* Ukuran font sedikit lebih kecil */
   font-weight: 700;
-  opacity: 0.6;
+  padding: 4px 12px;              /* Jarak di dalam badge */
+  border-radius: 50px;            /* Membuat sudut bulat total (Pill Shape) */
+  border: 1px solid rgba(214, 48, 49, 0.2); /* Garis pinggir tipis */
+  margin-bottom: 8px;             /* Memberi jarak dengan nama menu utama */
+  letter-spacing: 0.5px;          /* Agar huruf Jepang terbaca jelas */
+  opacity: 1;                     /* Kita buat solid, jangan transparan */
 }
 
 .desc {

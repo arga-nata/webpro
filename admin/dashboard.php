@@ -6,9 +6,6 @@ include '../config/db.php';
 $pageTitle = "Home"; // Judul yang muncul di Tab Browser
 $currentPage = "home";
 
-$pageTitle = "Home"; 
-$currentPage = "home"; // Pastikan ini sama dengan kata kunci di sidebar.php
-
 // --- SCRIPT ANTI-CACHE ---
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Cache-Control: post-check=0, pre-check=0", false);
@@ -110,6 +107,8 @@ $stats = [
   'menu_total' => $d_menu['total'] ?? 0
 ];
 
+$orders = [];
+
 // Cari bagian ini dan ganti dengan kode di bawah:
 $q_orders = mysqli_query($conn, "
     SELECT o.id, o.customer_name, o.total_amount, o.status,
@@ -207,62 +206,75 @@ while ($row = mysqli_fetch_assoc($q_orders)) {
               </tr>
             </thead>
             <tbody>
-              <?php foreach ($orders as $o): ?>
+              <?php if (empty($orders)): ?>
                 <tr>
-                  <td><?php echo $o['id']; ?></td>
-                  <td><strong><?php echo $o['nama']; ?></strong></td>
-                  <td><?php echo $o['menu']; ?></td>
-                  <td style="color:var(--success); font-weight:bold;"><?php echo $o['total']; ?></td>
-
-                  <td>
-                    <span class="badge <?php echo $o['status']; ?>">
-                      <?php echo ucfirst($o['status_text']); ?>
-                    </span>
-                  </td>
-
-                  <td>
-                    <?php if ($o['status_text'] == 'pending'): ?>
-                      <form action="" method="POST" style="display:inline;">
-                        <input type="hidden" name="order_id" value="<?php echo intval(substr($o['id'], 5)); ?>">
-                        <input type="hidden" name="action" value="accept">
-                        <button type="submit" class="btn-sm btn-acc" title="Terima (Masak)">
-                          <i class='bx bx-check'></i>
-                        </button>
-                      </form>
-
-                      <button class="btn-sm btn-rej" title="Tolak"
-                        onclick="openRejectModal('<?php echo intval(substr($o['id'], 5)); ?>')">
-                        <i class='bx bx-x'></i>
-                      </button>
-
-                    <?php elseif ($o['status_text'] == 'cooking'): ?>
-                      <form action="" method="POST" style="display:inline;">
-                        <input type="hidden" name="order_id" value="<?php echo intval(substr($o['id'], 5)); ?>">
-                        <input type="hidden" name="action" value="deliver">
-                        <button type="submit" class="btn-sm" style="background:#3498db; color:white;" title="Antar Pesanan">
-                          <i class='bx bxs-truck'></i> Antar
-                        </button>
-                      </form>
-
-                    <?php elseif ($o['status_text'] == 'delivery'): ?>
-                      <form action="" method="POST" style="display:inline;">
-                        <input type="hidden" name="order_id" value="<?php echo intval(substr($o['id'], 5)); ?>">
-                        <input type="hidden" name="action" value="complete">
-                        <button type="submit" class="btn-sm" style="background:#27ae60; color:white;"
-                          title="Selesaikan Order">
-                          <i class='bx bxs-check-circle'></i> Selesai
-                        </button>
-                      </form>
-
-                    <?php else: ?>
-                      <span style="font-size:0.8rem; color:#888;">
-                        <i class='bx bx-history'></i> Riwayat
-                      </span>
-                    <?php endif; ?>
+                  <td colspan="6" style="text-align:center; padding: 30px; color: #888; font-style: italic;">
+                    <i class='bx bx-sleepy' style="font-size: 2rem; display: block; margin-bottom: 10px;"></i>
+                    Belum ada pesanan masuk saat ini.
                   </td>
                 </tr>
-              <?php endforeach; ?>
+              <?php else: ?>
+
+                <?php foreach ($orders as $o): ?>
+                  <tr>
+                    <td><?php echo $o['id']; ?></td>
+                    <td><strong><?php echo $o['nama']; ?></strong></td>
+                    <td><?php echo $o['menu']; ?></td>
+                    <td style="color:var(--success); font-weight:bold;"><?php echo $o['total']; ?></td>
+
+                    <td>
+                      <span class="badge <?php echo $o['status']; ?>">
+                        <?php echo ucfirst($o['status_text']); ?>
+                      </span>
+                    </td>
+
+                    <td>
+                      <?php if ($o['status_text'] == 'pending'): ?>
+                        <form action="" method="POST" style="display:inline;">
+                          <input type="hidden" name="order_id" value="<?php echo intval(substr($o['id'], 5)); ?>">
+                          <input type="hidden" name="action" value="accept">
+                          <button type="submit" class="btn-sm btn-acc" title="Terima (Masak)">
+                            <i class='bx bx-check'></i>
+                          </button>
+                        </form>
+
+                        <button class="btn-sm btn-rej" title="Tolak"
+                          onclick="openRejectModal('<?php echo intval(substr($o['id'], 5)); ?>')">
+                          <i class='bx bx-x'></i>
+                        </button>
+
+                      <?php elseif ($o['status_text'] == 'cooking'): ?>
+                        <form action="" method="POST" style="display:inline;">
+                          <input type="hidden" name="order_id" value="<?php echo intval(substr($o['id'], 5)); ?>">
+                          <input type="hidden" name="action" value="deliver">
+                          <button type="submit" class="btn-sm" style="background:#3498db; color:white;" title="Antar Pesanan">
+                            <i class='bx bxs-truck'></i> Antar
+                          </button>
+                        </form>
+
+                      <?php elseif ($o['status_text'] == 'delivery'): ?>
+                        <form action="" method="POST" style="display:inline;">
+                          <input type="hidden" name="order_id" value="<?php echo intval(substr($o['id'], 5)); ?>">
+                          <input type="hidden" name="action" value="complete">
+                          <button type="submit" class="btn-sm" style="background:#27ae60; color:white;"
+                            title="Selesaikan Order">
+                            <i class='bx bxs-check-circle'></i> Selesai
+                          </button>
+                        </form>
+
+                      <?php else: ?>
+                        <span style="font-size:0.8rem; color:#888;">
+                          <i class='bx bx-history'></i> Riwayat
+                        </span>
+                      <?php endif; ?>
+                    </td>
+                  </tr>
+                <?php endforeach; ?>
+
+              <?php endif; ?>
             </tbody>
+          </table>
+          </tbody>
           </table>
         </div>
 
