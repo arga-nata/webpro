@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['flash_status'] = 'success';
             $_SESSION['flash_message'] = 'Login Berhasil! Sesi aman terkunci.';
             
-            header("Location: ../../admin/dashboard.php");
+            header("Location: ../../admin/home.php");
             exit;
 
         } else {

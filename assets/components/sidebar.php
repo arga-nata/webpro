@@ -6,7 +6,7 @@
 
   <ul class="side-menu">
     <li>
-      <a href="dashboard.php" class="<?= ($currentPage == 'home') ? 'active' : '' ?>">
+      <a href="home.php" class="<?= ($currentPage == 'home') ? 'active' : '' ?>">
         <i class='bx bxs-dashboard'></i>
         <span>Home</span>
       </a>
@@ -30,6 +30,13 @@
       <a href="laporan.php" class="<?= ($currentPage == 'laporan') ? 'active' : '' ?>">
         <i class='bx bxs-report'></i>
         <span>Laporan</span>
+      </a>
+    </li>
+
+    <li>
+      <a href="settings.php" class="<?= ($currentPage == 'settings') ? 'active' : '' ?>">
+        <i class='bx bxs-cog'></i>
+        <span>settings</span>
       </a>
     </li>
 

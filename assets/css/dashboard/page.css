@@ -37,256 +37,160 @@ body {
   position: relative;
 }
 
-/* --- 1. SIDEBAR --- */
+/* --- 5. SIDEBAR STYLES (PREMIUM SMOOTH) --- */
 .sidebar {
-  width: var(--sidebar-width);
-  height: 100vh;
-  background: var(--bg-card);
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1000;
-  border-right: 1px solid var(--border-color);
-  transition: all 0.3s ease;
+  width: var(--sidebar-width);
+  height: 100%;
+  background: var(--bg-sidebar);
+  z-index: 100;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Animasi lebih smooth */
+  overflow: hidden;
+  /* Penting! Supaya teks yang kepotong tidak bocor */
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
   display: flex;
   flex-direction: column;
-
-  /* FIX: HILANGKAN SCROLLBAR YANG MUNCUL SEKILAS */
-  overflow-x: hidden;
 }
 
-/* LOGIKA: Sidebar Menutup (Desktop) */
-.sidebar.close {
-  width: var(--sidebar-collapsed-width);
-}
-
-/* LOGIKA HIDE TEKS SAAT TUTUP */
-.sidebar.close .brand span,
-.sidebar.close .side-menu li a span,
-.sidebar.close .sidebar-footer .btn-logout span {
-  display: none !important;
-  opacity: 0;
-}
-
-/* LOGIKA CENTER ICON SAAT TUTUP */
-.sidebar.close .brand,
-.sidebar.close .side-menu li a,
-.sidebar.close .sidebar-footer .btn-logout {
-  justify-content: center;
-  padding-left: 0;
-  padding-right: 0;
-}
-
-.sidebar.close .brand img {
-  margin-right: 0;
-}
-
-.sidebar.close .side-menu li a i {
-  margin-right: 0;
-}
-
-
-/* --- ISI SIDEBAR --- */
+/* Sidebar Brand */
 .sidebar .brand {
   height: var(--header-height);
   display: flex;
   align-items: center;
-  /* FIX: Pastikan Vertikal Center */
-  padding: 0 20px;
-
-  /* FIX: HAPUS GARIS BAWAH YANG MENGGANGGU */
-  border-bottom: none;
-  margin-bottom: 10px;
-  /* Kasih jarak dikit ke menu */
-
+  padding: 0 24px;
+  /* Padding konsisten */
+  gap: 12px;
+  font-family: 'Dela Gothic One';
+  font-size: 1.2rem;
+  color: var(--brand-primary);
   white-space: nowrap;
+  /* Teks tidak turun baris */
 }
 
 .sidebar .brand img {
-  width: 35px;
-  min-width: 35px;
-  margin-right: 15px;
-  transition: 0.3s;
-  /* FIX: Pastikan gambar tidak turun/naik sendiri */
-  display: block;
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  min-width: 32px;
+  /* Jaga ukuran */
 }
 
-.sidebar .brand span {
-  font-family: 'Dela Gothic One';
-  font-size: 1rem;
-  color: var(--text-main);
-  transition: 0.3s;
-  /* FIX: Line Height biar sejajar sama logo */
-  line-height: 1;
-  padding-top: 3px;
-  /* Koreksi dikit font Dela Gothic yg kadang agak naik */
-}
-
+/* Sidebar Menu */
 .side-menu {
+  width: 100%;
   padding: 0 10px;
-  /* Padding kiri kanan saja */
-  list-style: none;
+  margin-top: 20px;
   flex-grow: 1;
-  overflow-y: auto;
-  /* Scroll vertikal boleh */
-  overflow-x: hidden;
-  /* Scroll horizontal DILARANG */
 }
-
-/* Style Scrollbar Sidebar yang halus */
-.side-menu::-webkit-scrollbar {
-  width: 5px;
-}
-
-.side-menu::-webkit-scrollbar-thumb {
-  background: #333;
-  border-radius: 10px;
-}
-
-.side-menu::-webkit-scrollbar-track {
-  background: transparent;
-}
-
 
 .side-menu li {
   margin-bottom: 5px;
 }
 
-.side-menu a {
+.side-menu li a {
   display: flex;
   align-items: center;
-  padding: 12px 15px;
+  height: 48px;
+  padding: 0 14px;
+  /* Padding kiri kanan */
+  border-radius: var(--radius-sm);
   color: var(--text-muted);
-  text-decoration: none;
-  border-radius: 8px;
-  transition: 0.2s;
+  gap: 12px;
+  font-weight: 500;
+  font-size: 0.95rem;
   white-space: nowrap;
-  height: 45px;
-  /* Tetapkan tinggi biar konsisten */
+  /* Teks memanjang ke samping, bukan ke bawah */
+  overflow: hidden;
+  transition: all 0.3s ease;
 }
 
-.side-menu a i {
+.side-menu li a i {
   font-size: 1.3rem;
-  min-width: 35px;
-  text-align: center;
-  margin-right: 10px;
+  min-width: 30px;
+  /* Lebar area icon tetap, jadi dia gak goyang */
   display: flex;
-  align-items: center;
   justify-content: center;
 }
 
-.side-menu a:hover {
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--text-main);
+.side-menu li a:hover,
+.side-menu li a.active {
+  background: rgba(255, 46, 99, 0.08);
+  color: var(--brand-primary);
 }
 
-.side-menu a.active {
-  background: var(--brand-red);
+.side-menu li a.active {
+  border-left: 3px solid var(--brand-primary);
+}
+
+/* Sidebar Footer (Logout) */
+.sidebar-footer {
+  padding: 20px;
+}
+
+.btn-logout {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  width: 100%;
+  background: var(--bg-error-soft);
+  color: var(--color-error);
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.btn-logout i {
+  min-width: 24px;
+  font-size: 1.2rem;
+}
+
+.btn-logout:hover {
+  background: var(--color-error);
   color: white;
 }
 
-.sidebar-footer {
-  padding: 20px;
-  border-top: 1px solid var(--border-color);
+
+/* =========================================
+   LOGIKA SIDEBAR MENUTUP (SMOOTH NO-JUMP)
+   ========================================= */
+
+/* 1. Sidebar mengecil */
+.sidebar.close {
+  width: 80px;
 }
 
-/* --- TOMBOL LOGOUT (UPDATED: CENTER) --- */
-.btn-logout {
-    display: flex; 
-    align-items: center; 
-    
-    /* UPDATE: RATA TENGAH SAAT SIDEBAR TERBUKA */
-    justify-content: center; 
-    
-    width: 100%; 
-    padding: 12px 15px;
-    
-    background: transparent; 
-    border: 1px solid var(--danger); 
-    color: var(--danger);
-    border-radius: 8px; 
-    cursor: pointer; 
-    transition: 0.2s; 
-    white-space: nowrap;
-    height: 45px;
-    
-    text-decoration: none; 
-    font-weight: 500;
+/* 2. Brand: Teks hilang, tapi Image TETAP DI POSISINYA (Padding kiri tetap 24px) */
+.sidebar.close .brand span {
+  opacity: 0;
+  pointer-events: none;
 }
 
-/* Icon di dalam tombol logout */
-.btn-logout i { 
-    font-size: 1.3rem; 
-    min-width: 35px;
-    text-align: center; 
-    margin-right: 10px; 
-    display: flex; align-items: center; justify-content: center; 
+/* 3. Menu: Teks hilang pelan-pelan */
+.sidebar.close .side-menu li a span,
+.sidebar.close .sidebar-footer .btn-logout span {
+  opacity: 0;
+  pointer-events: none;
 }
 
-.btn-logout:hover { 
-    background: var(--danger); 
-    color: white; 
+/* 4. Icon TETAP DI KIRI (Tidak di-center paksa) 
+   Karena lebar sidebar 80px, dan padding kiri 10px + padding link 14px, 
+   posisi icon akan terlihat "centered" secara alami tanpa perlu justify-content:center 
+   yang bikin loncat. */
+
+/* Trik: Saat close, kita ubah padding sedikit supaya pas di tengah 80px */
+.sidebar.close .side-menu li a {
+  padding-left: 20px;
+  /* Sesuaikan angka ini biar pas tengah secara visual */
 }
 
-/* KHUSUS SAAT SIDEBAR DITUTUP */
-.sidebar.close .btn-logout {
-    justify-content: center; 
-    padding: 0;
-}
-.sidebar.close .btn-logout i {
-    margin-right: 0; /* Hapus jarak margin saat icon sendirian */
-}
-
-
-/* --- 2. MAIN CONTENT --- */
-.main-content {
-  width: calc(100% - var(--sidebar-width));
-  margin-left: var(--sidebar-width);
-  transition: all 0.3s ease;
-  min-height: 100vh;
-}
-
-.sidebar.close~.main-content {
-  width: calc(100% - var(--sidebar-collapsed-width));
-  margin-left: var(--sidebar-collapsed-width);
-}
-
-
-/* --- 3. TOPBAR --- */
-.topbar {
-  height: var(--header-height);
-  background: var(--bg-card);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 30px;
-  border-bottom: 1px solid var(--border-color);
-  position: sticky;
-  top: 0;
-  z-index: 900;
-}
-
-.toggle-btn {
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: var(--text-muted);
-  display: flex;
-  align-items: center;
-}
-
-.user-info {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.profile-pic {
-  width: 40px;
-  height: 40px;
-  min-width: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid var(--brand-red);
+.sidebar.close .brand {
+  padding-left: 24px;
+  /* Tetap sama seperti saat terbuka */
 }
 
 

@@ -46,7 +46,7 @@
     
     <article class="article-card">
       <div class="article-image-small">
-        <img src="assets/images/steetspecial.jpg" alt="Sushi Rendang">
+        <img src="assets/images/menu/steetspecial.jpg" alt="Sushi Rendang">
       </div>
       <div class="article-content">
         <span class="article-tag">Inovasi Produk</span>
