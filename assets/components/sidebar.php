@@ -13,7 +13,7 @@
     </li>
     
     <li>
-      <a href="pesanan.php" class="<?= ($currentPage == 'pesanan') ? 'active' : '' ?>">
+      <a href="history.php" class="<?= ($currentPage == 'history') ? 'active' : '' ?>">
         <i class='bx bxs-shopping-bag'></i>
         <span>History</span>
       </a>

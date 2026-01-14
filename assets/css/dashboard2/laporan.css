@@ -184,49 +184,57 @@
 
 /* --- 5. TABEL STYLE --- */
 .custom-table {
-  width: 100%;
-  border-collapse: collapse;
-  min-width: 800px; /* KUNCI: Paksa tabel lebar agar trigger scroll di HP */
+    width: 100%;
+    border-collapse: separate; /* Penting untuk border-radius */
+    border-spacing: 0;
+    min-width: 800px; /* Agar scroll di HP */
 }
 
 .custom-table th {
-  text-align: left;
-  padding: 15px;
-  color: var(--text-muted);
-  font-size: 0.8rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  border-bottom: 1px solid var(--border-color);
-  background: rgba(255, 255, 255, 0.02);
-  white-space: nowrap; /* KUNCI: Teks header tidak turun */
+    /* Hapus text-align: left default agar bisa diatur class utility */
+    padding: 15px 20px; /* Padding Kanan-Kiri diperbesar agar tidak mepet */
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border-color);
+    background: rgba(255, 255, 255, 0.02);
+    white-space: nowrap;
 }
 
 .custom-table td {
-  padding: 15px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  color: var(--text-main);
-  font-size: 0.9rem;
-  vertical-align: middle;
-  white-space: nowrap; /* KUNCI: Isi tabel tidak turun baris */
+    padding: 15px 20px; /* Samakan padding dengan TH */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    color: var(--text-main);
+    font-size: 0.9rem;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+/* UTILITY ALIGNMENT (Wajib Ada) */
+.text-center { text-align: center !important; }
+.text-right  { text-align: right !important; }
+.text-left   { text-align: left !important; }
+
+/* Font Angka */
+.num-font {
+    font-family: "Consolas", monospace;
+    letter-spacing: 0.5px;
 }
 
 .custom-table tr:last-child td {
-  border-bottom: none;
+    border-bottom: none;
 }
 
 .custom-table tr:hover td {
-  background: rgba(255, 255, 255, 0.03);
-}
-
-.num-font {
-  font-family: "Consolas", monospace;
+    background: rgba(255, 255, 255, 0.03);
 }
 
 .row-total td {
-  border-top: 2px solid var(--border-color);
-  font-weight: 700;
-  background: rgba(255, 46, 99, 0.05);
-  color: var(--text-main);
+    border-top: 2px solid var(--border-color);
+    font-weight: 700;
+    background: rgba(255, 46, 99, 0.05);
+    color: var(--text-main);
 }
 
 .text-center {
