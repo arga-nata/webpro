@@ -1,3 +1,4 @@
+-- Active: 1759124169306@@127.0.0.1@3306@firman
 -- phpMyAdmin SQL Dump
 -- version 6.0.0-dev+20260109.c13d509813
 -- https://www.phpmyadmin.net/
@@ -31,7 +32,7 @@ CREATE TABLE `addons` (
   `id` int NOT NULL,
   `name` varchar(50) NOT NULL,
   `price` decimal(10,2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `addons`
@@ -56,7 +57,7 @@ CREATE TABLE `admins` (
   `password` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `last_session_id` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `admins`
@@ -75,7 +76,7 @@ INSERT INTO `admins` (`id`, `username`, `password`, `created_at`, `last_session_
 CREATE TABLE `categories` (
   `id` int NOT NULL,
   `name` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `categories`
@@ -99,7 +100,7 @@ CREATE TABLE `employees` (
   `role_id` int DEFAULT NULL,
   `shift_id` int DEFAULT NULL,
   `keterangan` varchar(100) DEFAULT '-'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `employees`
@@ -118,7 +119,7 @@ INSERT INTO `employees` (`id`, `name`, `role_id`, `shift_id`, `keterangan`) VALU
 CREATE TABLE `job_roles` (
   `id` int NOT NULL,
   `role_name` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `job_roles`
@@ -143,7 +144,7 @@ CREATE TABLE `menu_items` (
   `base_price` decimal(10,2) NOT NULL,
   `image` varchar(255) DEFAULT NULL,
   `is_available` tinyint(1) DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `menu_items`
@@ -168,7 +169,7 @@ CREATE TABLE `orders` (
   `status` enum('pending','confirmed','cooking','delivery','completed','cancelled') DEFAULT 'pending',
   `notes_general` text,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -185,7 +186,7 @@ CREATE TABLE `order_details` (
   `quantity` int NOT NULL,
   `subtotal` decimal(10,2) NOT NULL,
   `notes` text
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -198,7 +199,7 @@ CREATE TABLE `special_dates` (
   `date` date NOT NULL,
   `description` varchar(255) DEFAULT NULL,
   `is_holiday` tinyint(1) DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `special_dates`
@@ -220,7 +221,7 @@ CREATE TABLE `store_schedule` (
   `open_time` time DEFAULT NULL,
   `close_time` time DEFAULT NULL,
   `is_closed` tinyint(1) DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `store_schedule`
@@ -247,7 +248,7 @@ CREATE TABLE `system_settings` (
   `total_tables` int DEFAULT '10',
   `force_status` enum('auto','close','open') DEFAULT 'auto',
   `last_updated` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `system_settings`
@@ -266,7 +267,7 @@ CREATE TABLE `variants` (
   `id` int NOT NULL,
   `name` varchar(50) NOT NULL,
   `extra_price` decimal(10,2) DEFAULT '0.00'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `variants`
@@ -290,7 +291,7 @@ CREATE TABLE `work_shifts` (
   `shift_name` varchar(50) DEFAULT NULL,
   `start_time` time DEFAULT NULL,
   `end_time` time DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `work_shifts`
@@ -499,3 +500,15 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+ALTER TABLE orders ADD payment_proof VARCHAR(255) DEFAULT NULL AFTER payment_method;
+ALTER TABLE orders 
+ADD order_type ENUM('delivery', 'pickup') DEFAULT 'delivery' 
+AFTER customer_phone;
+
+SELECT * FROM system_settings;
+SELECT * FROM orders;
+
+DELETE FROM orders WHERE id = 1;
+
+SELECT * FROM orders WHERE customer_phone = "089696898001";

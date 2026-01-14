@@ -1,4 +1,4 @@
-<?php 
+<?php
 session_start();
 // Mencegah Cache Browser (Biar kalau di-Back nggak nyangkut)
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
@@ -13,6 +13,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
 
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,12 +21,41 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
     <link rel="icon" type="image/x-icon" href="../assets/images/favicon.ico">
 
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Inter:wght@400;600;800&display=swap"
+        rel="stylesheet">
+
     <link rel="stylesheet" href="../assets/css/dashboard/login.css">
-    
+
     <link rel="stylesheet" href="../assets/css/toaster.css">
+
+    <style>
+        .login-form-side {
+            position: relative;
+        }
+
+        .btn-back-home {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 1.5rem;
+            color: gray;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        .btn-back-home:hover {
+            color: white;
+            background: rgba(0, 0, 0, 0.05);
+        }
+    </style>
 </head>
+
 <body>
 
     <div class="bg-grid"></div>
@@ -43,9 +73,12 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
             </div>
 
             <div class="login-form-side">
-                
+
+                <a href="../index.php" class="btn-back-home" title="Kembali ke Toko">
+                    <i class='bx  bx-undo'></i>
+                </a>
                 <div class="brand-header">
-                    <img src="../assets/images/logo.png" alt="Logo"> 
+                    <img src="../assets/images/logo.png" alt="Logo">
                     <span>STREET SUSHI</span>
                 </div>
 
@@ -98,9 +131,9 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
     // Cek apakah ada pesan di Session (Flash Message)
     if (isset($_SESSION['flash_status']) && isset($_SESSION['flash_message'])) {
         $status = $_SESSION['flash_status']; // 'success' atau 'error'
-        $title  = ($status == 'success') ? 'ACCESS GRANTED' : 'ACCESS DENIED';
-        $msg    = $_SESSION['flash_message'];
-        
+        $title = ($status == 'success') ? 'ACCESS GRANTED' : 'ACCESS DENIED';
+        $msg = $_SESSION['flash_message'];
+
         // Panggil JS function showToast
         echo "<script>showToast('$status', '$title', '$msg');</script>";
 
@@ -111,4 +144,5 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
     ?>
 
 </body>
+
 </html>

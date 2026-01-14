@@ -36,7 +36,7 @@
     <li>
       <a href="settings.php" class="<?= ($currentPage == 'settings') ? 'active' : '' ?>">
         <i class='bx bxs-cog'></i>
-        <span>settings</span>
+        <span>Settings</span>
       </a>
     </li>
 
