@@ -8,7 +8,7 @@
 
   <link rel="shortcut icon" href="../assets/images/favicon.ico" type="image/x-icon">
 
-  <link rel="stylesheet" href="../assets/css/dashboard2/global.css">
+  <link rel="stylesheet" href="../assets/css/dashboard/global.css">
 
   <?php if (isset($customCSS)) echo $customCSS; ?>
 

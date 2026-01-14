@@ -9,12 +9,12 @@ ob_start();
 ?>
 
 <?php $customCSS = '
-<link rel="stylesheet" href="../assets/css/dashboard2/manage.css">
+<link rel="stylesheet" href="../assets/css/dashboard/manage.css">
 <link rel="stylesheet" href="../assets/css/toaster.css"> 
 '; ?>
 
 <div class="header-halaman">
-  <h1><i class='bx bx-data'></i> Manajemen Data</h1>
+  <h1>Manajemen Data</h1>
   <p class="text-muted">Pusat kontrol menu, pegawai, kategori, varian, dan add-ons.</p>
 </div>
 
