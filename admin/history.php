@@ -9,7 +9,7 @@ ob_start();
 <?php $customCSS = '<link rel="stylesheet" href="../assets/css/dashboard/history.css">'; ?>
 
 <div class="header-halaman">
-    <h1><i class='bx bx-history'></i> Riwayat Pesanan</h1>
+    <h1>Riwayat Pesanan</h1>
     <p>Pantau semua transaksi masuk, diproses, dan selesai.</p>
 </div>
 
@@ -19,8 +19,8 @@ ob_start();
 
     <div class="filter-group">
         <i class='bx bx-search' style="color:var(--text-muted)"></i>
-        <input type="text" name="search" id="searchInput" class="search-input"
-            placeholder="Cari ID / Nama..." value="<?= htmlspecialchars($search) ?>" autocomplete="off">
+        <input type="text" name="search" id="searchInput" class="search-input" placeholder="Cari ID / Nama..."
+            value="<?= htmlspecialchars($search) ?>" autocomplete="off">
     </div>
 
     <div class="filter-group">
@@ -59,10 +59,14 @@ ob_start();
                             <?php
                             $st = strtolower($row['status']);
                             $badgeClass = 'pending';
-                            if ($st == 'cooking') $badgeClass = 'cooking';
-                            elseif ($st == 'delivery') $badgeClass = 'delivery';
-                            elseif ($st == 'completed') $badgeClass = 'completed';
-                            elseif ($st == 'cancelled') $badgeClass = 'cancelled';
+                            if ($st == 'cooking')
+                                $badgeClass = 'cooking';
+                            elseif ($st == 'delivery')
+                                $badgeClass = 'delivery';
+                            elseif ($st == 'completed')
+                                $badgeClass = 'completed';
+                            elseif ($st == 'cancelled')
+                                $badgeClass = 'cancelled';
                             ?>
                             <tr>
                                 <td class="col-left w-id">
@@ -72,12 +76,16 @@ ob_start();
                                 </td>
                                 <td class="col-left w-date">
                                     <div style="display:flex; flex-direction:column; line-height:1.4;">
-                                        <span style="color:white; font-weight:500;"><?= date('d M Y', strtotime($row['created_at'])) ?></span>
-                                        <span style="color:var(--text-muted); font-size:0.8rem;"><?= date('H:i', strtotime($row['created_at'])) ?> WIB</span>
+                                        <span
+                                            style="color:white; font-weight:500;"><?= date('d M Y', strtotime($row['created_at'])) ?></span>
+                                        <span
+                                            style="color:var(--text-muted); font-size:0.8rem;"><?= date('H:i', strtotime($row['created_at'])) ?>
+                                            WIB</span>
                                     </div>
                                 </td>
                                 <td class="col-left w-user">
-                                    <span style="font-weight:600; color:white;"><?= htmlspecialchars($row['customer_name']) ?></span>
+                                    <span
+                                        style="font-weight:600; color:white;"><?= htmlspecialchars($row['customer_name']) ?></span>
                                 </td>
                                 <td class="col-center w-method">
                                     <span style="color:var(--text-secondary); font-size:0.85rem; font-weight:600;">
@@ -96,14 +104,14 @@ ob_start();
                                 </td>
                                 <td class="col-center w-action">
                                     <button class="btn-check" onclick='openDetail(<?= json_encode([
-                                                                                        "id" => "#" . str_pad($row["id"], 4, "0", STR_PAD_LEFT),
-                                                                                        "name" => $row["customer_name"],
-                                                                                        "phone" => $row["customer_phone"],
-                                                                                        "time" => date("d M Y, H:i", strtotime($row["created_at"])),
-                                                                                        "method" => ucfirst($row["payment_method"]),
-                                                                                        "items" => $row["item_details"],
-                                                                                        "total" => "Rp " . number_format($row["total_amount"], 0, ",", ".")
-                                                                                    ]) ?>)'>
+                                        "id" => "#" . str_pad($row["id"], 4, "0", STR_PAD_LEFT),
+                                        "name" => $row["customer_name"],
+                                        "phone" => $row["customer_phone"],
+                                        "time" => date("d M Y, H:i", strtotime($row["created_at"])),
+                                        "method" => ucfirst($row["payment_method"]),
+                                        "items" => $row["item_details"],
+                                        "total" => "Rp " . number_format($row["total_amount"], 0, ",", ".")
+                                    ]) ?>)'>
                                         <i class='bx bx-show'></i> Check
                                     </button>
                                 </td>
@@ -111,7 +119,8 @@ ob_start();
                         <?php endwhile; ?>
                     <?php else: ?>
                         <tr>
-                            <td colspan="7" style="text-align:center; padding: 50px; color:var(--text-muted);">Tidak ada data ditemukan.</td>
+                            <td colspan="7" style="text-align:center; padding: 50px; color:var(--text-muted);">Tidak ada
+                                data ditemukan.</td>
                         </tr>
                     <?php endif; ?>
                 </tbody>
@@ -121,7 +130,8 @@ ob_start();
 
     <div class="pagination-container">
         <div class="pagination">
-            <a href="?page=<?= max(1, $page - 1) ?><?= $urlParams ?>" class="page-link <?= ($page <= 1) ? 'disabled' : '' ?>">
+            <a href="?page=<?= max(1, $page - 1) ?><?= $urlParams ?>"
+                class="page-link <?= ($page <= 1) ? 'disabled' : '' ?>">
                 <i class='bx bx-chevron-left'></i>
             </a>
 
@@ -135,7 +145,8 @@ ob_start();
                 <?php endif; ?>
             <?php endfor; ?>
 
-            <a href="?page=<?= min($totalPages, $page + 1) ?><?= $urlParams ?>" class="page-link <?= ($page >= $totalPages) ? 'disabled' : '' ?>">
+            <a href="?page=<?= min($totalPages, $page + 1) ?><?= $urlParams ?>"
+                class="page-link <?= ($page >= $totalPages) ? 'disabled' : '' ?>">
                 <i class='bx bx-chevron-right'></i>
             </a>
         </div>
@@ -167,7 +178,8 @@ ob_start();
             </div>
             <div class="info-row">
                 <span class="info-label">Metode Pembayaran</span>
-                <span class="info-val" id="d-method" style="font-family:'Consolas'; color:var(--text-muted);">CASH</span>
+                <span class="info-val" id="d-method"
+                    style="font-family:'Consolas'; color:var(--text-muted);">CASH</span>
             </div>
         </div>
 
@@ -185,9 +197,9 @@ ob_start();
     const searchInput = document.getElementById('searchInput');
     let timeout = null;
 
-    searchInput.addEventListener('input', function() {
+    searchInput.addEventListener('input', function () {
         clearTimeout(timeout);
-        timeout = setTimeout(function() {
+        timeout = setTimeout(function () {
             submitFilter();
         }, 400);
     });
@@ -248,7 +260,7 @@ ob_start();
     function closeDetail() {
         document.getElementById('detailModal').classList.remove('show');
     }
-    window.onclick = function(e) {
+    window.onclick = function (e) {
         if (e.target == document.getElementById('detailModal')) closeDetail();
     }
 </script>
