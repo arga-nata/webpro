@@ -9,7 +9,7 @@ ob_start();
 ?>
 
 <?php $customCSS = '
-<link rel="stylesheet" href="../assets/css/dashboard2/manage.css">
+<link rel="stylesheet" href="../assets/css/dashboard/manage.css">
 <link rel="stylesheet" href="../assets/css/toaster.css"> 
 '; ?>
 

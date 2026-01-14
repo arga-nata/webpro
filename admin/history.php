@@ -6,7 +6,7 @@ include '../config/logic/history_logic.php';
 ob_start();
 ?>
 
-<?php $customCSS = '<link rel="stylesheet" href="../assets/css/dashboard2/history.css">'; ?>
+<?php $customCSS = '<link rel="stylesheet" href="../assets/css/dashboard/history.css">'; ?>
 
 <div class="header-halaman">
     <h1><i class='bx bx-history'></i> Riwayat Pesanan</h1>

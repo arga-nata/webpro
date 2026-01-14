@@ -5,7 +5,7 @@ $currentPage = "laporan";
 ob_start();
 ?>
 
-<?php $customCSS = '<link rel="stylesheet" href="../assets/css/dashboard2/laporan.css">'; ?>
+<?php $customCSS = '<link rel="stylesheet" href="../assets/css/dashboard/laporan.css">'; ?>
 
 <div class="report-header">
     <div class="page-header-title">
