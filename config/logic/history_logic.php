@@ -1,8 +1,8 @@
 <?php
-// config/logic/history_logic.php
-session_start();
+// FILE: config/logic/history_logic.php
 
-// 1. WAJIB: SET TIMEZONE AGAR TANGGAL PHP & DATABASE SINKRON
+session_start();
+// 1. SET TIMEZONE (PENTING)
 date_default_timezone_set('Asia/Jakarta');
 
 include '../config/db.php';
@@ -18,8 +18,7 @@ $currentPage = "history";
 
 // --- 2. SETTING FILTER ---
 
-// Default Tanggal: Dari 30 hari yang lalu sampai Hari Ini
-// (Agar data bulan lalu tetap terlihat saat buka halaman pertama kali)
+// Default Tanggal: 30 hari terakhir s/d Hari Ini
 $defaultStart = date('Y-m-d', strtotime('-30 days'));
 $defaultEnd   = date('Y-m-d');
 
@@ -39,34 +38,30 @@ $offset = ($page - 1) * $limit;
 // --- 3. BUILD QUERY ---
 $whereClause = "WHERE 1=1";
 
-// A. Filter Status (OPSIONAL TAPI DISARANKAN)
-// Biasanya History hanya menampilkan yang sudah Selesai/Batal.
-// Hapus baris ini jika kamu ingin SEMUA status muncul.
-$whereClause .= " AND o.status IN ('completed', 'cancelled')";
+// Filter Status: Tampilkan yang Selesai atau Dibatalkan (Aktifkan jika perlu)
+// $whereClause .= " AND o.status IN ('completed', 'cancelled')"; 
 
-// B. Filter Search
+// Filter Search
 if (!empty($search)) {
     $whereClause .= " AND (o.customer_name LIKE '%$search%' OR o.id LIKE '%$search%')";
 }
 
-// C. Filter Tanggal
-// Menggunakan DATE() agar jam diabaikan, fokus ke tanggalnya saja
+// Filter Tanggal
 $whereClause .= " AND DATE(o.created_at) BETWEEN '$startDate' AND '$endDate'";
 
 // --- 4. EKSEKUSI ---
 
-// Hitung Total Data (Tanpa Join untuk performa)
+// A. Hitung Total Data
 $countQuery = "SELECT COUNT(*) as total FROM orders o $whereClause";
 $countResult = mysqli_query($conn, $countQuery);
 $totalRows = mysqli_fetch_assoc($countResult)['total'] ?? 0;
 $totalPages = ceil($totalRows / $limit);
 
-// Ambil Data Utama
-// GROUP_CONCAT untuk menggabungkan menu dalam satu baris
+// B. Ambil Data Utama (FIXED QUERY)
+// Perbaikan: Menggunakan format delimiter '|' dan '||' agar bisa di-parse oleh JS Modal
 $query = "
     SELECT o.*, 
-    GROUP_CONCAT(CONCAT(m.name, ' (', od.quantity, ')') SEPARATOR ', ') as items_summary,
-    SUM(od.subtotal) as calculated_total
+    GROUP_CONCAT(CONCAT(m.name, '|', od.quantity, '|', m.base_price, '|', od.subtotal) SEPARATOR '||') as item_details
     FROM orders o
     LEFT JOIN order_details od ON o.id = od.order_id
     LEFT JOIN menu_items m ON od.menu_item_id = m.id
@@ -85,10 +80,6 @@ $query .= " LIMIT $offset, $limit";
 
 $result = mysqli_query($conn, $query);
 
-// Cek Error Query (Untuk Debugging jika masih kosong)
-if (!$result) {
-    die("Query Error: " . mysqli_error($conn));
-}
-
-// Parameter URL untuk Pagination Link
+// Parameter URL untuk Pagination
 $urlParams = "&search=$search&start=$startDate&end=$endDate&sort=$sort&limit=$limit";
+?>

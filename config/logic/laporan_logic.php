@@ -1,6 +1,7 @@
 <?php
-// config/logic/laporan_logic.php
+// FILE: config/logic/laporan_logic.php
 session_start();
+date_default_timezone_set('Asia/Jakarta');
 include '../config/db.php';
 
 // Cek Login
@@ -15,6 +16,7 @@ $endDate   = isset($_GET['end'])   ? $_GET['end']   : date('Y-m-d');
 $urlParams = "&start=$startDate&end=$endDate";
 
 // 2. QUERY DATA HARIAN (Tabel Utama)
+// Mengambil data Orders yang valid (bukan cancelled)
 $reportData = [];
 $query = "
     SELECT 
@@ -24,7 +26,7 @@ $query = "
         COALESCE(SUM(od.subtotal), 0) as gross
     FROM orders o
     LEFT JOIN order_details od ON o.id = od.order_id
-    WHERE o.status != 'cancelled' 
+    WHERE o.status = 'completed' 
     AND DATE(o.created_at) BETWEEN '$startDate' AND '$endDate'
     GROUP BY DATE(o.created_at)
     ORDER BY date ASC
@@ -33,7 +35,7 @@ $result = mysqli_query($conn, $query);
 
 if ($result) {
     while ($row = mysqli_fetch_assoc($result)) {
-        // Asumsi HPP 60% (Bisa disesuaikan nanti)
+        // Estimasi HPP (Misal 60% dari Gross)
         $row['cost'] = $row['gross'] * 0.60; 
         $reportData[] = $row;
     }
@@ -52,22 +54,27 @@ foreach ($reportData as $d) {
 $totalNet = $totalGross - $totalCost;
 $avgOrder = ($totalTrx > 0) ? $totalGross / $totalTrx : 0;
 
-// 4. DATA TAMBAHAN (Untuk Analisis)
+// 4. DATA TAMBAHAN (Analisis)
 
-// A. Cancel Rate
+// A. Cancel Rate (Hitung dari tabel orders saja agar cepat)
 $queryCancelled = "SELECT COUNT(*) as total FROM orders WHERE status = 'cancelled' AND DATE(created_at) BETWEEN '$startDate' AND '$endDate'";
 $resCancelled = mysqli_query($conn, $queryCancelled);
 $totalCancelled = mysqli_fetch_assoc($resCancelled)['total'] ?? 0;
-$totalAllOrders = $totalTrx + $totalCancelled;
+
+// Total semua order masuk (Completed + Cancelled + Others)
+$queryAll = "SELECT COUNT(*) as total FROM orders WHERE DATE(created_at) BETWEEN '$startDate' AND '$endDate'";
+$resAll = mysqli_query($conn, $queryAll);
+$totalAllOrders = mysqli_fetch_assoc($resAll)['total'] ?? 0;
+
 $cancelRate = ($totalAllOrders > 0) ? ($totalCancelled / $totalAllOrders) * 100 : 0;
 
-// B. Top Menu
+// B. Top Menu (Best Seller)
 $queryTopItem = "
     SELECT m.name, SUM(od.quantity) as qty
     FROM order_details od
     JOIN menu_items m ON od.menu_item_id = m.id
     JOIN orders o ON od.order_id = o.id
-    WHERE o.status != 'cancelled' AND DATE(o.created_at) BETWEEN '$startDate' AND '$endDate'
+    WHERE o.status = 'completed' AND DATE(o.created_at) BETWEEN '$startDate' AND '$endDate'
     GROUP BY m.id ORDER BY qty DESC LIMIT 1
 ";
 $resTop = mysqli_query($conn, $queryTopItem);
@@ -76,65 +83,29 @@ $topItemName = $topItem['name'] ?? "Belum ada data";
 $topItemContribution = ($totalSold > 0) ? (($topItem['qty'] ?? 0) / $totalSold) * 100 : 0;
 
 
-// 5. SMART NARRATIVE ENGINE (LOGIKA AI SEDERHANA)
+// 5. SMART NARRATIVE (Analisis Teks)
 $analisis_text = "";
 
-// SKENARIO 1: DATA KOSONG
 if ($totalTrx == 0) {
     if ($totalCancelled > 0) {
-        $analisis_text = "⚠️ <strong>Perhatian:</strong> Belum ada pendapatan masuk, namun tercatat ada <strong class='text-red'>{$totalCancelled} pesanan yang dibatalkan</strong>. Segera periksa kendala operasional di dapur atau kasir karena potensi penjualan hilang sepenuhnya.";
+        $analisis_text = "⚠️ <strong>Perhatian:</strong> Belum ada transaksi sukses, namun tercatat <strong class='text-red'>{$totalCancelled} pembatalan</strong>. Cek operasional segera.";
     } else {
-        $analisis_text = "Belum ada aktivitas penjualan yang terekam pada periode ini. Data analisis akan muncul secara otomatis setelah toko mulai menerima pesanan yang berhasil diselesaikan.";
+        $analisis_text = "Belum ada data transaksi pada periode ini.";
     }
-} 
-// SKENARIO 2: ADA DATA (ANALISIS MENDALAM)
-else {
-    // Tentukan Variabel Kalimat
+} else {
+    // Variabel Kalimat
     $operasionalStatus = ($cancelRate <= 5) ? 'baik' : (($cancelRate <= 10) ? 'normal' : 'perlu perhatian');
-    $dayaBeli = ($avgOrder >= 60000) ? 'tinggi' : (($avgOrder >= 45000) ? 'sehat' : 'rendah');
-    $menuDominan = $topItemContribution >= 25;
+    $dayaBeli = ($avgOrder >= 50000) ? 'tinggi' : (($avgOrder >= 25000) ? 'sehat' : 'rendah');
+    
+    // Paragraf 1: Keuangan
+    $analisis_text .= "Total pendapatan periode ini mencapai <strong class='text-white'>Rp " . number_format($totalGross, 0, ',', '.') . "</strong>. ";
+    $analisis_text .= "Rata-rata transaksi per pelanggan adalah <strong class='text-white'>Rp " . number_format($avgOrder, 0, ',', '.') . "</strong> (daya beli $dayaBeli). ";
 
-    // Bank Kalimat
-    $bankKalimat = [
-        'operasional' => [
-            'baik' => 'Aktivitas operasional berjalan sangat lancar didominasi oleh order yang berhasil diselesaikan',
-            'normal' => 'Proses operasional berjalan cukup stabil dengan tingkat pembatalan yang masih dalam batas wajar',
-            'perlu perhatian' => 'Terdapat kendala dalam operasional yang ditandai dengan tingkat pembatalan order cukup tinggi'
-        ],
-        'daya_beli' => [
-            'tinggi' => 'mengindikasikan daya beli pelanggan berada pada level yang kuat',
-            'sehat' => 'menunjukkan daya beli pelanggan berada pada level yang sehat',
-            'rendah' => 'mengindikasikan pelanggan cenderung memilih menu hemat atau transaksi bernilai kecil'
-        ],
-        'menu' => [
-            'dominan' => 'menjadi kontributor utama penjualan',
-            'biasa' => 'menjadi menu dengan tingkat pemesanan tertinggi'
-        ]
-    ];
+    // Paragraf 2: Operasional
+    $analisis_text .= "Tingkat pembatalan tercatat <strong class='" . ($cancelRate > 10 ? 'text-red' : 'text-green') . "'>" . number_format($cancelRate, 1) . "%</strong>. ";
 
-    // Rangkai Paragraf
-    // 1. Keuangan
-    $analisis_text .= "Selama periode ini, Street Sushi mencatat total pendapatan sebesar <strong class='text-white'>Rp " . number_format($totalGross, 0, ',', '.') . "</strong>. ";
-    $analisis_text .= "Rata-rata nilai per transaksi berada di kisaran <strong class='text-white'>Rp " . number_format($avgOrder, 0, ',', '.') . "</strong>, yang {$bankKalimat['daya_beli'][$dayaBeli]}. ";
-
-    // 2. Operasional
-    $analisis_text .= "Dari sisi operasional, {$bankKalimat['operasional'][$operasionalStatus]}, dengan rasio pembatalan sekitar <strong class='" . ($cancelRate > 10 ? 'text-red' : 'text-white') . "'>" . number_format($cancelRate, 1) . "%</strong> dari total pesanan masuk. ";
-
-    // 3. Produk
+    // Paragraf 3: Menu
     if ($topItem) {
-        $menuSentence = $menuDominan 
-            ? $bankKalimat['menu']['dominan'] . " dengan kontribusi signifikan sekitar " . number_format($topItemContribution, 1) . "%" 
-            : $bankKalimat['menu']['biasa'];
-        $analisis_text .= "Untuk performa produk, menu <strong class='text-brand'>{$topItemName}</strong> {$menuSentence} dari total item terjual. ";
-    }
-
-    // 4. Kesimpulan Strategis
-    if ($dayaBeli == 'rendah') {
-        $analisis_text .= "Fokus ke depan dapat diarahkan pada strategi <em>upselling</em> atau paket <em>bundling</em> untuk meningkatkan nilai transaksi per pelanggan.";
-    } elseif ($operasionalStatus == 'perlu perhatian') {
-        $analisis_text .= "Prioritas utama saat ini adalah mengevaluasi alur kerja dapur dan layanan untuk menekan angka pembatalan pesanan.";
-    } else {
-        $analisis_text .= "Secara keseluruhan, performa penjualan stabil. Strategi ke depan dapat difokuskan pada optimalisasi stok menu terlaris untuk menjaga momentum penjualan.";
+        $analisis_text .= "Menu terlaris adalah <strong class='text-brand'>{$topItemName}</strong> yang menyumbang " . number_format($topItemContribution, 1) . "% dari total item terjual.";
     }
 }
-?>
